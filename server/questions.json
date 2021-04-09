@@ -1,0 +1,59 @@
+[
+  {
+    "_id": 1,
+    "question": "What type of meal are you looking for?",
+    "options": ["main course", "breakfast", "side dish", "fingerfood"]
+  },
+  {
+    "_id": 2,
+    "question": "What did you eat yesterday?",
+    "options": ["chicken", "pork", "beef", "tofu", "salmon", "none of these"]
+  },
+  {
+    "_id": 3,
+    "question": "would you like to set a maximum cook time?",
+    "options": ["yes", "no"]
+  },
+  {
+    "_id": 4,
+    "question": "Any specific diets?",
+    "options": ["gluten free", "vegetarian", "vegan", "pescetarian", "no"]
+  },
+  {
+    "_id": 5,
+    "question": "Want to cook with one of these proteins?",
+    "options": ["chicken", "beef", "pork", "fish", "scallops", "no"]
+  },
+  {
+    "_id": 6,
+    "question": "Would you like to try any of these cuisines?",
+    "options": [
+      "African",
+      "American",
+      "British",
+      "Cajun",
+      "Caribbean",
+      "Chinese",
+      "Eastern European",
+      "European",
+      "French",
+      "German",
+      "Greek",
+      "Indian",
+      "Irish",
+      "Italian",
+      "Japanese",
+      "Jewish",
+      "Korean",
+      "Latin American",
+      "Mediterranean",
+      "Mexican",
+      "Middle Eastern",
+      "Nordic",
+      "Southern",
+      "Spanish",
+      "Thai",
+      "Vietnamese"
+    ]
+  }
+]
