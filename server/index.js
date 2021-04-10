@@ -7,6 +7,7 @@ const {
   deleteUserProfile,
   editUserProfile,
   getUser,
+  LoginUser,
 } = require("./handlers/userHandlers");
 
 const {
@@ -54,8 +55,8 @@ express()
   .get("/posts/post/:postId", getPostById)
   // POST new post
   .post("/posts/post", createPost)
-  // PUT edit post posted by user
-  .put("/posts/post/:postId", editPost)
+  // PATCH edit post posted by user
+  .patch("/posts/post/:postId", editPost)
   // DELETE remove post posted by user
   .delete("/posts/post/:postId", deletePost)
 
@@ -72,6 +73,8 @@ express()
 
   // user endpoints we need
 
+  //GET user login
+  .get("/users/login", LoginUser)
   // GET user
   .get("/users/user/:userId", getUser)
   // PATCH edit user
