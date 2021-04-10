@@ -130,9 +130,37 @@ const getUser = async (req, res) => {
   }
 };
 
+const LoginUser = async (req, res) => {
+  const client = await MongoClient(MONGO_URI, options);
+  const { email, password } = req.body;
+
+  await client.connect();
+  console.log("connected");
+  const db = client.db("recipe-app");
+
+  try {
+    const result = await db.collection("users").findOne({ email, password });
+
+    result
+      ? res
+          .status(200)
+          .json({ status: 200, data: result, message: "Logged in user" })
+      : res
+          .status(404)
+          .json({ status: 404, data: result, message: "User not found" });
+  } catch (err) {
+    res
+      .status(404)
+      .json({ status: 404, data: { email, password }, message: err.message });
+  }
+  client.close();
+  console.log("disconnected");
+};
+
 module.exports = {
   createNewUser,
   deleteUserProfile,
   editUserProfile,
   getUser,
+  LoginUser,
 };

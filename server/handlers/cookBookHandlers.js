@@ -20,11 +20,17 @@ const getCookBook = async (req, res) => {
       .collection("cookbooks")
       .findOne({ _id: cookbookId });
 
-    res.status(200).json({
-      status: 200,
-      data: result,
-      message: "retreived cookbook",
-    });
+    result
+      ? res.status(200).json({
+          status: 200,
+          data: result,
+          message: "retreived cookbook",
+        })
+      : res.status(404).json({
+          status: 404,
+          data: cookbookId,
+          message: "cookbook not found",
+        });
   } catch (err) {
     res
       .status(404)
@@ -47,21 +53,33 @@ const createCookBook = async (req, res) => {
     const cookBook = {
       author: handle,
       authorId: userId,
-      recipes: [],
     };
+    const recipes = [];
     const newCookBook = {
       _id,
       cookBook,
+      recipes,
     };
     const result = await db
       .collection("cookbooks")
       .insertOne({ ...newCookBook });
 
     assert.strictEqual(1, result.insertedCount);
+    // once the cookbook is created, go to that user and turn hasCookBook to true;
+    // and set cookBook to that cookbook's id
+    const query = { _id: userId };
+
+    const newValue = { $set: { hasCookBook: true, cookBook: _id } };
+
+    const changedUserInfo = await db
+      .collection("users")
+      .updateOne(query, newValue);
+
+    assert.strictEqual(1, changedUserInfo.modifiedCount);
 
     res.status(202).json({
       status: 202,
-      data: newCookBook,
+      data: { newCookBook, newValue },
       message: `created ${handle}'s cookbook!`,
     });
   } catch (err) {
@@ -96,7 +114,7 @@ const editCookBook = async (req, res) => {
   } catch (err) {
     res
       .status(400)
-      .json({ status: 400, data: "something", message: err.message });
+      .json({ status: 400, data: "Book not found", message: err.message });
   }
   client.close();
   console.log("disconnected");
@@ -105,6 +123,7 @@ const editCookBook = async (req, res) => {
 const deleteCookBook = async (req, res) => {
   const client = await MongoClient(MONGO_URI, options);
   const { cookbookId } = req.params;
+  const { userId } = req.query;
   await client.connect();
   console.log("connected");
   const db = client.db("recipe-app");
@@ -113,6 +132,18 @@ const deleteCookBook = async (req, res) => {
       .collection("cookbooks")
       .deleteOne({ _id: cookbookId });
     assert.strictEqual(1, result.deletedCount);
+    // once book has been deleted than we set the user hasCookBook back to false
+    // and the cookbook back to null,
+
+    const query = { _id: userId };
+
+    const newValue = { $set: { hasCookBook: false, cookBook: null } };
+
+    const changedUserInfo = await db
+      .collection("users")
+      .updateOne(query, newValue);
+
+    assert.strictEqual(1, changedUserInfo.modifiedCount);
 
     res.status(200).json({
       status: 200,
