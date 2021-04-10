@@ -11,13 +11,20 @@
   },
   {
     "_id": 3,
-    "question": "would you like to set a maximum cook time?",
+    "question": "would you like to set a maximum prep time?",
     "options": ["yes", "no"]
   },
   {
     "_id": 4,
     "question": "Any specific diets?",
-    "options": ["gluten free", "vegetarian", "vegan", "pescetarian", "no"]
+    "options": [
+      "gluten free",
+      "vegetarian",
+      "vegan",
+      "pescetarian",
+      "ketogenic",
+      "no"
+    ]
   },
   {
     "_id": 5,
