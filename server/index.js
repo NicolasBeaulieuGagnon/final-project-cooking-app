@@ -66,7 +66,7 @@ express()
   // POST new cookbook by user id
   .post("/cookbook", createCookBook)
   // PATCH edit user's cookbook
-  .put("/cookbook/:cookbookId", editCookBook)
+  .patch("/cookbook/:cookbookId", editCookBook)
   // DELETE remove cookbook made by user
   .delete("/cookbook/:cookbookId", deleteCookBook)
 

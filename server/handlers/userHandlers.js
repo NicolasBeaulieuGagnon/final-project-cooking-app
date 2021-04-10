@@ -3,7 +3,6 @@ require("dotenv").config();
 const { MONGO_URI } = process.env;
 const assert = require("assert");
 const uuidv4 = require("uuid").v4;
-const { query } = require("express");
 
 const options = {
   useNewUrlParser: true,
@@ -56,7 +55,7 @@ const createNewUser = async (req, res) => {
       .status(201)
       .json({ status: 201, data: User, message: "added new sucessfully" });
   } catch (err) {
-    res.status(404).json({ status: 404, message: err.message });
+    res.status(400).json({ status: 400, message: err.message });
   }
 
   client.close();
@@ -74,13 +73,11 @@ const deleteUserProfile = async (req, res) => {
   try {
     const result = await db.collection("users").deleteOne({ _id: userId });
     assert.strictEqual(1, result.deletedCount);
-    res
-      .status(202)
-      .json({
-        status: 202,
-        data: result.deletedCount,
-        message: "successfully deleted Account",
-      });
+    res.status(200).json({
+      status: 200,
+      data: result.deletedCount,
+      message: "successfully deleted Account",
+    });
   } catch (err) {
     res.status(404).json({ status: 404, data: userId, message: err.message });
   }
