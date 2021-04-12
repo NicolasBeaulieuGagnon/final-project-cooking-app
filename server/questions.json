@@ -1,21 +1,21 @@
 [
   {
-    "_id": 1,
+    "_id": "type",
     "question": "What type of meal are you looking for?",
     "options": ["main course", "breakfast", "side dish", "fingerfood"]
   },
   {
-    "_id": 2,
+    "_id": "excludeIngredients",
     "question": "What did you eat yesterday?",
     "options": ["chicken", "pork", "beef", "tofu", "salmon", "none of these"]
   },
   {
-    "_id": 3,
-    "question": "would you like to set a maximum prep time?",
-    "options": ["yes", "no"]
+    "_id": "includeIngredients",
+    "question": "Any of these vegetables peek your interest?",
+    "options": ["tomato", "potato", "onion", "leek", "carrot"]
   },
   {
-    "_id": 4,
+    "_id": "diet",
     "question": "Any specific diets?",
     "options": [
       "gluten free",
@@ -27,12 +27,12 @@
     ]
   },
   {
-    "_id": 5,
+    "_id": "query",
     "question": "Want to cook with one of these proteins?",
     "options": ["chicken", "beef", "pork", "fish", "scallops", "no"]
   },
   {
-    "_id": 6,
+    "_id": "cuisine",
     "question": "Would you like to try any of these cuisines?",
     "options": [
       "African",

@@ -24,7 +24,13 @@ const {
   createCookBook,
   editCookBook,
   deleteCookBook,
+  // getRecipeByFilters,
+  getApiKey,
 } = require("./handlers/cookBookHandlers");
+
+const { getSecureLink } = require("./handlers/userAvatarHandlers");
+
+const { getAllQuestions } = require("./handlers/questionHandler");
 
 const PORT = 31415;
 
@@ -83,6 +89,16 @@ express()
   .delete("/users/user/delete/:userId", deleteUserProfile)
   // POST new user
   .post("/users/user", createNewUser)
+
+  // get secure url from our server to be able to post image to s3 bucket
+  .get("/s3Url", getSecureLink)
+
+  //getting all questions stored in a JSON
+  .get("/questions", getAllQuestions)
+
+  //GET SPOON API KEY
+  .get("/apiKey", getApiKey)
+  // .put("/recipe", getRecipeByFilters)
 
   .listen(PORT, function () {
     console.info("🌍 Listening on port ", PORT);
