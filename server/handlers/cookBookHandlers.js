@@ -1,6 +1,6 @@
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
-const { MONGO_URI } = process.env;
+const { MONGO_URI, SPOON_API_KEY } = process.env;
 const assert = require("assert");
 const uuidv4 = require("uuid").v4;
 
@@ -159,9 +159,26 @@ const deleteCookBook = async (req, res) => {
   console.log("disconnected");
 };
 
+const getApiKey = (req, res) => {
+  res.status(200).json({ status: 200, data: SPOON_API_KEY });
+};
+// const getRecipeByFilters = (req, res) => {
+//   const { filterOne, filterTwo, resultOne, resultTwo } = req.body;
+
+//   fetch(
+//     `https://api.spoonacular.com/recipes/complexSearch?apiKey=${SPOON_API_KEY}&${filterOne}=${resultOne}`
+//   ).then((res) => {
+//     res.json().then((data) => {
+//       console.log(data);
+//     });
+//   });
+// };
+
 module.exports = {
   getCookBook,
   createCookBook,
   editCookBook,
   deleteCookBook,
+  getApiKey,
+  // getRecipeByFilters,
 };
