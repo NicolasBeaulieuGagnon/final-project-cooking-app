@@ -10,22 +10,40 @@ const DropDown = ({ setIsBookClosed, isBookClosed }) => {
     <Wrapper id="dropDown">
       <DropDownList>
         <ItemLink onClick={closeDropDown} to="/">
-          <DropDownItem>Home</DropDownItem>
+          <DropDownItem>
+            Home
+            <Bar />
+          </DropDownItem>
         </ItemLink>
         <ItemLink onClick={closeDropDown} to="/questions">
-          <DropDownItem>Questions</DropDownItem>
+          <DropDownItem>
+            Questions
+            <Bar />
+          </DropDownItem>
         </ItemLink>
         <ItemLink onClick={closeDropDown} to="fridge">
-          <DropDownItem>Fridge</DropDownItem>
+          <DropDownItem>
+            Fridge
+            <Bar />
+          </DropDownItem>
         </ItemLink>
         <ItemLink onClick={closeDropDown} to="profile">
-          <DropDownItem>Profile</DropDownItem>
+          <DropDownItem>
+            Profile
+            <Bar />
+          </DropDownItem>
         </ItemLink>
         <ItemLink onClick={closeDropDown} to="newsFeed">
-          <DropDownItem>News Feed</DropDownItem>
+          <DropDownItem>
+            News Feed
+            <Bar />
+          </DropDownItem>
         </ItemLink>
         <ItemLink onClick={closeDropDown} to="about">
-          <DropDownItem>About</DropDownItem>
+          <DropDownItem>
+            About
+            <Bar />
+          </DropDownItem>
         </ItemLink>
       </DropDownList>
     </Wrapper>
@@ -35,11 +53,19 @@ const DropDown = ({ setIsBookClosed, isBookClosed }) => {
 const Wrapper = styled.div`
   font-size: 25px;
   font-weight: bold;
-  background: rgb(255, 236, 209);
+  background: var(--dropDown-bg-color);
   height: 0px;
   border-bottom-right-radius: 15px;
   overflow-y: hidden;
-  transition: 0.3s ease-in-out;
+  transition: 0.2s ease-in-out;
+`;
+
+const Bar = styled.div`
+  margin-left: 5%;
+  width: 90%;
+  height: 2px;
+  border-radius: 50px;
+  background: rgb(192, 177, 157);
 `;
 const DropDownList = styled.ul`
   text-align: center;
@@ -52,7 +78,7 @@ const DropDownItem = styled.li`
   transition: 0.1s ease-in-out;
   &:hover {
     color: var(--primary-bg-color);
-    background: rgb(120, 41, 15);
+    background: var(--dark-accent);
   }
   &:active {
     transform: scale(0.9);
