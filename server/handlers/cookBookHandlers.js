@@ -162,17 +162,6 @@ const deleteCookBook = async (req, res) => {
 const getApiKey = (req, res) => {
   res.status(200).json({ status: 200, data: SPOON_API_KEY });
 };
-// const getRecipeByFilters = (req, res) => {
-//   const { filterOne, filterTwo, resultOne, resultTwo } = req.body;
-
-//   fetch(
-//     `https://api.spoonacular.com/recipes/complexSearch?apiKey=${SPOON_API_KEY}&${filterOne}=${resultOne}`
-//   ).then((res) => {
-//     res.json().then((data) => {
-//       console.log(data);
-//     });
-//   });
-// };
 
 module.exports = {
   getCookBook,
@@ -180,5 +169,4 @@ module.exports = {
   editCookBook,
   deleteCookBook,
   getApiKey,
-  // getRecipeByFilters,
 };

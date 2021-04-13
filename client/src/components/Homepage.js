@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const Homepage = () => {
+  const [file, setFile] = useState(null);
   const [secretUrl, setSecretUrl] = useState("");
   const [imageUrl, setImageUrl] = useState(null);
   const postPicture = async () => {
@@ -11,26 +12,33 @@ const Homepage = () => {
         setSecretUrl(data.url);
       });
     });
-    const file = imageInput.files[0];
-
-    await fetch(secretUrl, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      body: file,
-    });
-
-    setImageUrl(secretUrl.split("?")[0]);
-    console.log(imageUrl);
+    setFile(imageInput.files[0]);
   };
+  console.log(imageUrl);
+
+  useEffect(() => {
+    if (secretUrl) {
+      console.log("made it here");
+      fetch(secretUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        body: file,
+      }).then(() => {
+        setImageUrl(secretUrl.split("?")[0]);
+      });
+    }
+  }, [secretUrl]);
+
   return (
     <Wrapper>
-      {/* <InputImage type="file" id="myFile" name="filename"></InputImage>
+      <InputImage type="file" id="myFile" name="filename"></InputImage>
       <button type="submit" onClick={postPicture}>
         submit
       </button>
-      <>{imageUrl && <img src={imageUrl} alt="uploaded image" />}</> */}
+
+      <>{imageUrl && <img src={imageUrl} alt="uploaded image" />}</>
     </Wrapper>
   );
 };

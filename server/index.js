@@ -24,11 +24,13 @@ const {
   createCookBook,
   editCookBook,
   deleteCookBook,
-  // getRecipeByFilters,
   getApiKey,
 } = require("./handlers/cookBookHandlers");
 
-const { getSecureLink } = require("./handlers/userAvatarHandlers");
+const {
+  getSecureLink,
+  getAllStoredAvatarChoices,
+} = require("./handlers/userAvatarHandlers");
 
 const { getAllQuestions } = require("./handlers/questionHandler");
 
@@ -92,13 +94,14 @@ express()
 
   // get secure url from our server to be able to post image to s3 bucket
   .get("/s3Url", getSecureLink)
+  // GET all default avatar  choices
+  .get("/avatarChoice", getAllStoredAvatarChoices)
 
   //getting all questions stored in a JSON
   .get("/questions", getAllQuestions)
 
   //GET SPOON API KEY
   .get("/apiKey", getApiKey)
-  // .put("/recipe", getRecipeByFilters)
 
   .listen(PORT, function () {
     console.info("🌍 Listening on port ", PORT);

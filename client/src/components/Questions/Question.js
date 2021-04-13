@@ -25,6 +25,7 @@ const Question = ({ chosenQuestions }) => {
 };
 
 const QuestionWrapper = styled.div`
+  font-size: 20px;
   margin: 10px;
   padding: 20px;
   border-radius: 4px;

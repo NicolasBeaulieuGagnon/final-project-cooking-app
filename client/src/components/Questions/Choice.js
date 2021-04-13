@@ -56,7 +56,7 @@ const Choice = ({ questionId, index, options }) => {
 const Wrapper = styled.div``;
 
 const OptionButton = styled(NotStyledButton)`
-  font-size: 17px;
+  font-size: 18px;
   margin: 7px;
   &:hover {
     opacity: 0.5;

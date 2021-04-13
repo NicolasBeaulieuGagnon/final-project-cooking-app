@@ -12,7 +12,7 @@ import InFridge from "./InFridge";
 import { GlobalStyle } from "./GlobalStyle";
 import CookBook from "./CookBook/CookBook";
 import SubmitRecipe from "./CookBook/SubmitRecipe";
-import Recipe from "./Recipe";
+import Recipe from "./Recipe/Recipe";
 import NewsFeed from "./NewsFeed/NewsFeed";
 import PostDetails from "./Post/PostDetails";
 import ErrorPage from "./ErrorPage";
@@ -70,5 +70,8 @@ const App = () => {
   );
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  background: var(--primary-bg-color);
+  height: 100vh;
+`;
 export default App;

@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router";
+
+import NotStyledButton from "../Button/NoStyledButton";
+import MainStyledButton from "../Button/MainStyledButton";
 import closeBook from "../../assets/closeBook.png";
 import openBook from "../../assets/openBook.png";
 import DropDown from "./DropDown";
 
-import NotStyledButton from "../Button/NoStyledButton";
 const NavBar = () => {
+  const history = useHistory();
   const [isBookClosed, setIsBookClosed] = useState(true);
 
   useEffect(() => {
@@ -13,7 +17,7 @@ const NavBar = () => {
     if (isBookClosed) {
       dropMenu.style.height = "0px";
     } else {
-      dropMenu.style.height = "250px";
+      dropMenu.style.height = "268px";
     }
   }, [isBookClosed]);
   const handleDropDown = () => {
@@ -40,13 +44,22 @@ const NavBar = () => {
             isBookClosed={isBookClosed}
           />
         </DropDownWrapper>
+        <LoginButton
+          onClick={() => {
+            history.push("/login");
+          }}
+        >
+          Login
+        </LoginButton>
       </NavBarWrapper>
     </>
   );
 };
 
 const NavBarWrapper = styled.div`
+  box-shadow: 0 3px 6px 0.2px rgb(120, 41, 15, 0.6);
   position: relative;
+  z-index: 200;
 `;
 
 const DropDownWrapper = styled.div`
@@ -56,6 +69,15 @@ const DropDownWrapper = styled.div`
   width: 40vw;
 `;
 
+const LoginButton = styled(MainStyledButton)`
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translate(0%, -50%);
+  &:active {
+    transform: translate(0%, -50%) scale(0.9);
+  }
+`;
 const DropDownButton = styled(NotStyledButton)`
   transition: 0.1s ease-in-out;
   &:active {
@@ -80,10 +102,8 @@ const OpenBook = styled(Book)`
 
 const Wrapper = styled.div`
   z-index: 100;
-  box-shadow: 0 3px 6px 0.2px rgb(120, 41, 15, 0.6);
   display: flex;
   background-color: var(--nav-bg-color);
-  width: 100vw;
   height: 80px;
 `;
 
