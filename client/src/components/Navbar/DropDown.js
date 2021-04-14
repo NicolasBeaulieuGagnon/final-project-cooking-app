@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+
+import { LoggedInUserContext } from "../Providers/LoggedInUserProvider";
 
 const DropDown = ({ setIsBookClosed, isBookClosed }) => {
   const closeDropDown = () => {
     setIsBookClosed(!isBookClosed);
   };
+
+  const { loggedInUser } = useContext(LoggedInUserContext);
   return (
     <Wrapper id="dropDown">
       <DropDownList>
@@ -21,25 +25,25 @@ const DropDown = ({ setIsBookClosed, isBookClosed }) => {
             <Bar />
           </DropDownItem>
         </ItemLink>
-        <ItemLink onClick={closeDropDown} to="fridge">
+        <ItemLink onClick={closeDropDown} to="/fridge">
           <DropDownItem>
             Fridge
             <Bar />
           </DropDownItem>
         </ItemLink>
-        <ItemLink onClick={closeDropDown} to="profile">
+        <ItemLink onClick={closeDropDown} to="/profile/:userId">
           <DropDownItem>
             Profile
             <Bar />
           </DropDownItem>
         </ItemLink>
-        <ItemLink onClick={closeDropDown} to="newsFeed">
+        <ItemLink onClick={closeDropDown} to="/newsFeed">
           <DropDownItem>
             News Feed
             <Bar />
           </DropDownItem>
         </ItemLink>
-        <ItemLink onClick={closeDropDown} to="about">
+        <ItemLink onClick={closeDropDown} to="/about">
           <DropDownItem>
             About
             <Bar />

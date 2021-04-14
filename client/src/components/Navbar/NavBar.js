@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 
+import { LoggedInUserContext } from "../Providers/LoggedInUserProvider";
 import NotStyledButton from "../Button/NoStyledButton";
 import MainStyledButton from "../Button/MainStyledButton";
 import closeBook from "../../assets/closeBook.png";
@@ -11,6 +13,13 @@ import DropDown from "./DropDown";
 const NavBar = () => {
   const history = useHistory();
   const [isBookClosed, setIsBookClosed] = useState(true);
+
+  const { loggedInUser, setLoggedInUser } = useContext(LoggedInUserContext);
+
+  const handleLogOut = () => {
+    localStorage.setItem("logged in", "false");
+    setLoggedInUser([]);
+  };
 
   useEffect(() => {
     const dropMenu = document.getElementById("dropDown");
@@ -44,18 +53,34 @@ const NavBar = () => {
             isBookClosed={isBookClosed}
           />
         </DropDownWrapper>
-        <LoginButton
-          onClick={() => {
-            history.push("/login");
-          }}
-        >
-          Login
-        </LoginButton>
+        {localStorage.getItem("logged in") === "true" ? (
+          <>
+            <LoggedInUserName>
+              Hello,{" "}
+              <StyledLink to={`/profile/:userId`}>
+                {loggedInUser.userName}
+              </StyledLink>
+            </LoggedInUserName>
+            <LogoutButton onClick={handleLogOut}>Log Out</LogoutButton>
+          </>
+        ) : (
+          <LoginButton
+            onClick={() => {
+              history.push("/login");
+            }}
+          >
+            Login
+          </LoginButton>
+        )}
       </NavBarWrapper>
     </>
   );
 };
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+`;
 const NavBarWrapper = styled.div`
   box-shadow: 0 3px 6px 0.2px rgb(120, 41, 15, 0.6);
   position: relative;
@@ -78,6 +103,16 @@ const LoginButton = styled(MainStyledButton)`
     transform: translate(0%, -50%) scale(0.9);
   }
 `;
+const LoggedInUserName = styled.span`
+  font-weight: bold;
+  font-size: 18px;
+  background: transparent;
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  transform: translate(-50%);
+`;
+const LogoutButton = styled(LoginButton)``;
 const DropDownButton = styled(NotStyledButton)`
   transition: 0.1s ease-in-out;
   &:active {

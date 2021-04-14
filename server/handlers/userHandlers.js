@@ -132,7 +132,8 @@ const getUser = async (req, res) => {
 
 const LoginUser = async (req, res) => {
   const client = await MongoClient(MONGO_URI, options);
-  const { email, password } = req.body;
+  const { email, password } = req.query;
+  console.log(email, password);
 
   await client.connect();
   console.log("connected");
