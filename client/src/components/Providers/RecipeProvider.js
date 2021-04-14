@@ -11,7 +11,6 @@ export const RecipeProvider = ({ children }) => {
     if (filterInformation.length > 1 && filterInformation[0] !== null) {
       fetch("/apiKey").then((res) => {
         res.json().then((data) => {
-          console.log(filterInformation);
           if (
             (filterInformation[1] === "no" ||
               filterInformation[1] === "none of these") &&
@@ -19,7 +18,7 @@ export const RecipeProvider = ({ children }) => {
               filterInformation[3] === "none of these")
           ) {
             setUrl(
-              `https://api.spoonacular.com/recipes/random?apiKey=${data.data}`
+              `https://api.spoonacular.com/recipes/random?apiKey=${data.data}&number=3`
             );
           } else if (
             filterInformation[1] === "no" ||
@@ -46,11 +45,13 @@ export const RecipeProvider = ({ children }) => {
   }, [isGettingRecipe]);
 
   useEffect(() => {
+    console.log(url);
     if (url) {
       console.log("calling question recipe API");
       console.log(url);
       fetch(url).then((res) => {
         res.json().then((data) => {
+          console.log(data.recipes);
           setFilteredRecipe(data.results);
         });
       });

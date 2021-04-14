@@ -15,9 +15,11 @@ const AvatarOptionModal = ({ userAvatar, setUserAvatar }) => {
   }, []);
 
   const handleChoice = (ev) => {
+    const userUploadImage = document.getElementById("userUploadImage");
+    userUploadImage.value = "";
     setUserAvatar(ev.target.id);
   };
-
+  const handleNoChoice = () => {};
   const handleClose = () => {
     const modal = document.getElementById("avatarModalBg");
     if (modal) {
@@ -63,7 +65,7 @@ const AvatarOptionModal = ({ userAvatar, setUserAvatar }) => {
             })}
         </AvatarWrapper>
         <Button onClick={handleClose} id="avatarDoneButton">
-          Done
+          Choose
         </Button>
         <CloseButton onClick={handleClose}>Close</CloseButton>
       </Modal>
