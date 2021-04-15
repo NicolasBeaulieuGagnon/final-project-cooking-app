@@ -19,6 +19,7 @@ const NavBar = () => {
   const handleLogOut = () => {
     localStorage.setItem("logged in", "false");
     setLoggedInUser([]);
+    history.push("/");
   };
 
   useEffect(() => {
