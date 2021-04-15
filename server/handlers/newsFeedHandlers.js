@@ -28,6 +28,7 @@ const createPost = async (req, res) => {
       posted,
       author: {
         handle: user.userName,
+        authorAvatarSrc: user.avatarSrc,
         authorId: user._id,
         numOfFollowers: user.numOfFollowers,
         numOfLikes: user.numOfLikes,
@@ -36,6 +37,9 @@ const createPost = async (req, res) => {
         cookBook: user.cookBook,
       },
       numLikes: 0,
+      likedBy: [],
+      numFollows: 0,
+      followedBy: [],
       edited: false,
     };
 
@@ -187,9 +191,9 @@ const getPostsByUserId = async (req, res) => {
           data: result,
           message: "fetched all posts by given Id",
         })
-      : res.status(404).json({
-          status: 404,
-          data: userId,
+      : res.status(200).json({
+          status: 200,
+          data: "no posts",
           message: "no posts found at given Id",
         });
   } catch (err) {

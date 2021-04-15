@@ -10,7 +10,7 @@ export const GlobalStyle = createGlobalStyle`
     --nav-height : 10vh;
     --btn-bg-color : rgb(255, 160, 71);
     --dark-accent : rgb(120, 41, 15);
-
+    --post-bg-color: #d9c9ba;
   }
 
 
@@ -18,6 +18,7 @@ html,
 body,
 div,
 span {
+  scroll-behavior: smooth;
   margin: 0;
   padding: 0;
   border: 0;

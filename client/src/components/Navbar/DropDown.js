@@ -31,12 +31,20 @@ const DropDown = ({ setIsBookClosed, isBookClosed }) => {
             <Bar />
           </DropDownItem>
         </ItemLink>
-        <ItemLink onClick={closeDropDown} to="/profile/:userId">
-          <DropDownItem>
+        {localStorage.getItem("logged in") === "true" ? (
+          <ItemLink onClick={closeDropDown} to="/profile/:userId">
+            <DropDownItem>
+              Profile
+              <Bar />
+            </DropDownItem>
+          </ItemLink>
+        ) : (
+          <DisabledItem>
             Profile
             <Bar />
-          </DropDownItem>
-        </ItemLink>
+          </DisabledItem>
+        )}
+
         <ItemLink onClick={closeDropDown} to="/newsFeed">
           <DropDownItem>
             News Feed
@@ -90,6 +98,13 @@ const DropDownItem = styled.li`
     background: var(--primary-bg-color);
   }
 `;
+
+const DisabledItem = styled.li`
+  cursor: default;
+  padding: 5px;
+  opacity: 0.3;
+`;
+
 const ItemLink = styled(Link)`
   color: black;
   text-decoration: none;
