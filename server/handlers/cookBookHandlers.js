@@ -42,7 +42,8 @@ const getCookBook = async (req, res) => {
 
 const createCookBook = async (req, res) => {
   const client = await MongoClient(MONGO_URI, options);
-  const { userId, handle } = req.body;
+  const { cookBookName, userId, handle } = req.body;
+
   await client.connect();
   console.log("connected");
 
@@ -50,15 +51,20 @@ const createCookBook = async (req, res) => {
 
   try {
     const _id = uuidv4();
-    const cookBook = {
+    const creator = {
       author: handle,
       authorId: userId,
     };
     const recipes = [];
+    const created = new Date().toISOString();
+    const customizations = [];
     const newCookBook = {
       _id,
-      cookBook,
+      cookBookName,
+      created,
+      creator,
       recipes,
+      customizations,
     };
     const result = await db
       .collection("cookbooks")
@@ -101,7 +107,7 @@ const editCookBook = async (req, res) => {
 
   try {
     const query = { _id: cookbookId };
-    const newValue = { $set: req.body };
+    const newValue = { $addToSet: { recipes: req.body.recipes[0] } };
     const result = await db.collection("cookbooks").updateOne(query, newValue);
 
     assert.strictEqual(1, result.modifiedCount);

@@ -45,12 +45,19 @@ const DropDown = ({ setIsBookClosed, isBookClosed }) => {
           </DisabledItem>
         )}
 
-        <ItemLink onClick={closeDropDown} to="/newsFeed">
-          <DropDownItem>
+        {localStorage.getItem("logged in") === "true" ? (
+          <ItemLink onClick={closeDropDown} to="/newsfeed">
+            <DropDownItem>
+              News Feed
+              <Bar />
+            </DropDownItem>
+          </ItemLink>
+        ) : (
+          <DisabledItem>
             News Feed
             <Bar />
-          </DropDownItem>
-        </ItemLink>
+          </DisabledItem>
+        )}
         <ItemLink onClick={closeDropDown} to="/about">
           <DropDownItem>
             About

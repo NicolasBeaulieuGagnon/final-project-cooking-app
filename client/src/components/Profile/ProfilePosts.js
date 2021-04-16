@@ -29,7 +29,6 @@ const Wrapper = styled.div`
     width: 0;
   }
 `;
-
 const Border = styled.div`
   margin-left: 20px;
   width: 90%;
