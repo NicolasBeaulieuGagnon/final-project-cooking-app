@@ -77,7 +77,7 @@ const RemovePostButton = styled.button`
 
 const SubmitEditButton = styled(RemovePostButton)`
   top: 224px;
-  left: 344px;
+  left: 279px;
 `;
 
 const EditPostButton = styled(MainStyledButton)`
@@ -86,6 +86,7 @@ const EditPostButton = styled(MainStyledButton)`
   font-size: 13px;
   opacity: 0.5;
   border-radius: 50px;
+  bottom: 0px;
   left: -10px;
   &:hover {
     opacity: 1;

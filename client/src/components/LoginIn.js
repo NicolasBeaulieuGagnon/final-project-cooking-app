@@ -268,7 +268,8 @@ const LoginSectionWrapper = styled.div`
 `;
 const LoginCredentials = styled.div`
   width: 270px;
-  margin-left: 50px;
+  margin-left: 25px;
+  margin-bottom: 40px;
 `;
 
 const FormTitle = styled.div`
@@ -279,6 +280,7 @@ const FormTitle = styled.div`
 `;
 
 const LoginWrapper = styled.div`
+  margin-top: 20px;
   margin-left: 30px;
   font-weight: bold;
   font-size: 22px;
@@ -321,8 +323,8 @@ const AvatarChoiceWrapper = styled.div`
 `;
 const LoginButton = styled(MainStyledButton)`
   background: var(--primary-bg-color);
-  bottom: 5px;
-  left: 330px;
+  bottom: 43px;
+  left: 300px;
 `;
 const SubmitButton = styled(MainStyledButton)`
   bottom: 20px;

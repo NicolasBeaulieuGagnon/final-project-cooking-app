@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import NavBar from "./Navbar/NavBar";
 import Homepage from "./Homepage";
+import CreateCookBook from "./CookBook/CreateCookBook";
 import Questions from "./Questions/Questions";
 import Profile from "./Profile/Profile";
 import LoginIn from "./LoginIn";
@@ -55,6 +56,9 @@ const App = () => {
             </Route>
             <Route exact path="/post/:postId">
               <PostDetails />
+            </Route>
+            <Route exact path="/createCookBook">
+              <CreateCookBook />
             </Route>
             <Route path="*">
               <ErrorPage />

@@ -11,6 +11,7 @@ export const GlobalStyle = createGlobalStyle`
     --btn-bg-color : rgb(255, 160, 71);
     --dark-accent : rgb(120, 41, 15);
     --post-bg-color: #d9c9ba;
+    --slight-box-shadow : rgb(145, 142, 140);
   }
 
 

@@ -36,7 +36,7 @@ const ProfileCookBook = ({ user, cookBook }) => {
         <EmptyBook>
           <CreateBookButton
             onClick={() => {
-              history.push(`/recipe/createBook`);
+              history.push(`/createCookBook`);
             }}
           >
             create your own book

@@ -7,7 +7,6 @@ const MainStyledButton = styled(NotStyledButton)`
   font-size: 22px;
   font-weight: bold;
   position: absolute;
-  bottom: 2px;
   border-radius: 3px;
   padding: 2px 10px;
   box-shadow: 1px 1px 6px 0.1px rgb(120, 41, 15, 0.6);
