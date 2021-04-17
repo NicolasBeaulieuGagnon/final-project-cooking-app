@@ -59,6 +59,7 @@ const Profile = () => {
     if (userInfo.hasCookBook) {
       fetch(`/cookbook/${userInfo.cookBook}`).then((res) => {
         res.json().then((data) => {
+          console.log(data);
           setUserCookBook(data.data);
         });
       });
@@ -121,21 +122,19 @@ const Profile = () => {
             </ProfileWrapper>
             <ButtonsWrapper>
               <CookBookButton
-                onMouseDown={() => {
-                  handlePanelChange("cookbook");
-                }}
                 onClick={() => {
                   handlePanelChange("cookbook");
+                  document.body.scrollTop = 500;
+                  document.documentElement.scrollTop = 500;
                 }}
               >
                 Cookbook
               </CookBookButton>
               <PostsButton
-                onMouseDown={() => {
-                  handlePanelChange("posts");
-                }}
                 onClick={() => {
                   handlePanelChange("posts");
+                  document.body.scrollTop = 1000;
+                  document.documentElement.scrollTop = 1000;
                 }}
               >
                 Posts
@@ -190,7 +189,11 @@ const FadingBorder = styled.div`
   margin-left: 10px;
   padding-top: 10px;
   background: var(--primary-bg-color);
-  background: linear-gradient(to right, rgb(120, 41, 15), rgb(255, 236, 209));
+  background: linear-gradient(
+    to right,
+    var(--primary-border-color),
+    var(--primary-bg-color)
+  );
   position: absolute;
 `;
 const LeftFadingBorder = styled.div`
@@ -198,7 +201,11 @@ const LeftFadingBorder = styled.div`
   height: 300px;
   padding-left: 10px;
   background: var(--primary-bg-color);
-  background: linear-gradient(to bottom, rgb(120, 41, 15), rgb(255, 236, 209));
+  background: linear-gradient(
+    to bottom,
+    var(--primary-border-color),
+    var(--primary-bg-color)
+  );
   position: absolute;
 `;
 
@@ -233,7 +240,7 @@ const Banner = styled.img`
 const ReplaceBanner = styled.div`
   position: relative;
   z-index: 1;
-  background: #e8d7be;
+  background: var(--primary-bg-color);
   border-bottom: 3px solid var(--dark-accent);
   box-shadow: 0 10px 20px 0.1px var(--btn-bg-color);
   height: 130px;
@@ -280,7 +287,7 @@ const Bio = styled.div`
   font-weight: bold;
   opacity: 0.7;
   border-radius: 5px;
-  background-color: rgb(232, 215, 190, 0.7);
+  background-color: var(--primary-bg-color);
   box-shadow: 0.9px 0.9px 6px 1px #c9c9c9;
   width: 328px;
   height: 100px;

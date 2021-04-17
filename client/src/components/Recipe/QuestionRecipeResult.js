@@ -33,12 +33,12 @@ const QuestionRecipeResult = () => {
 const StyledLink = styled(Link)``;
 
 const RecipeImgWrapper = styled.div`
-  border: 5px solid rgb(120, 41, 15, 0.9);
+  border: 2px solid var(--primary-border-color);
   background: transparent;
   overflow: hidden;
   width: 200px;
   margin-top: 10px;
-  border-radius: 5px;
+  border-radius: 2px;
   margin-right: 0;
 `;
 
@@ -65,7 +65,7 @@ const RecipeItem = styled.div`
   word-wrap: break-word;
 `;
 const Wrapper = styled.div`
-  border-top: 4px solid rgb(120, 41, 15, 0.3);
+  border-top: 2px solid var(--primary-border-color);
   height: 0px;
   overflow: hidden;
   background: var(--primary-bg-color);
@@ -79,11 +79,11 @@ const RecipeWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  box-shadow: 0px 5px 10px 1px rgb(120, 41, 15, 0.3);
+  box-shadow: 0px 5px 20px 1px var(--slight-box-shadow);
   overflow: hidden;
-  border: 4px solid rgb(120, 41, 15, 0.3);
+  border: 2px solid var(--primary-border-color);
   border-top: none;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
 `;
 export default QuestionRecipeResult;

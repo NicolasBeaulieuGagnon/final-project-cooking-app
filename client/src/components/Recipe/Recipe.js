@@ -89,6 +89,7 @@ const Recipe = () => {
           style={{
             backgroundImage: `url(${fullRecipe.image})`,
             backgroundSize: `100%`,
+            backgroundRepeat: `no-repeat`,
           }}
         >
           <RecipeWrapper>
@@ -169,6 +170,7 @@ const Recipe = () => {
 };
 const NoInstructionsDiv = styled.div``;
 const Title = styled.h1`
+  text-shadow: 2px -2px 5px white;
   position: relative;
   margin: 0;
   padding-top: 30px;
@@ -191,13 +193,13 @@ const OwnedRecipe = styled.div`
   position: absolute;
   border-radius: 3px;
   padding: 2px 10px;
-  box-shadow: 1px 1px 6px 0.1px rgb(120, 41, 15, 0.6);
+  box-shadow: 0px 0px 10px 0.1px var(--slight-box-shadow);
   bottom: 0;
   right: 5px;
 `;
 
 const RecipeWrapper = styled.div`
-  background: rgb(235, 208, 181, 0.6);
+  background: rgb(7, 9, 82, 0.2);
   width: 100%;
 `;
 

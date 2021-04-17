@@ -44,7 +44,7 @@ const Name = styled.span`
   background: var(--dropDown-bg-color);
   padding: 2px 5px;
   border-radius: 5px;
-  border: 2px solid var(--dark-accent);
+  border: 2px solid var(--primary-border-color);
   position: absolute;
   top: 87px;
   left: 60px;

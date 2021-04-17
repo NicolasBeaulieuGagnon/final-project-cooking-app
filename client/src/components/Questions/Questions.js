@@ -197,17 +197,18 @@ const QuestionWrapper = styled.div`
 const NewQuestionsButton = styled(NotStyledButton)`
   background: var(--btn-bg-color);
   margin-left: 10px;
+  margin-bottom: 5px;
   font-size: 22px;
   font-weight: bold;
   position: absolute;
   bottom: 2px;
-  border-radius: 3px;
+  border-radius: 2px;
   padding: 2px 10px;
-  box-shadow: 1px 1px 6px 0.1px rgb(120, 41, 15, 0.6);
-  border: 2px solid rgb(120, 41, 15);
+  box-shadow: 1px 1px 2px 0.1px var(--primary-border-color);
+  border: 2px solid var(--primary-border-color);
   transition: 0.1s ease-in-out;
   &:hover {
-    background: rgb(255, 160, 71, 0.5);
+    transform: scale(1.1);
   }
   &:active {
     transform: scale(0.9);
@@ -234,10 +235,10 @@ const ArrowButton = styled(NewQuestionsButton)`
   padding: 0 10px;
   padding-top: 5px;
   bottom: -20px;
-  left: 50%;
+  left: 53%;
   transform: translate(-50%);
   &:hover {
-    background: rgb(255, 217, 175);
+    transform: scale(1.1) translate(-50%);
   }
   &:active {
     transform: scale(1);
@@ -252,7 +253,7 @@ const Wrapper = styled.div`
   position: relative;
   font-size: 15px;
   font-weight: bold;
-  background: var(--questions-bg-color);
+  background: var(--primary-bg-color);
   padding: 20px 10px;
 `;
 export default Questions;

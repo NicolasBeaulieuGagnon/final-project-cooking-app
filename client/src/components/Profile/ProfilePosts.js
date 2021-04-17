@@ -6,7 +6,7 @@ import Post from "../Post/Post";
 const ProfilePosts = ({ user, posts }) => {
   return (
     <Wrapper>
-      <Title>{user}'s Posts</Title>
+      <Title>Posts</Title>
       <Border />
       {posts?.length > 0 ? (
         <Feed>

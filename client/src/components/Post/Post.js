@@ -70,17 +70,17 @@ const RemovePostButton = styled.button`
   outline: none;
   cursor: pointer;
   position: absolute;
-  border-radius: 3px;
+  border-radius: 2px;
   padding: 2px 10px;
-  box-shadow: 1px 1px 6px 0.1px rgb(120, 41, 15, 0.6);
-  border: 2px solid rgb(120, 41, 15);
+  box-shadow: 1px 1px 6px 0.1px var(--primar-border-color);
+  border: 2px solid var(--primary-border-color);
   background: var(--btn-bg-color);
   margin-left: 10px;
   font-size: 15px;
   font-weight: bold;
   transition: 0.1s ease-in-out;
   &:hover {
-    background: rgb(255, 160, 71, 0.5);
+    transform: scale(1.1);
   }
   &:active {
     transform: scale(0.9);
@@ -97,7 +97,7 @@ const EditPostButton = styled(MainStyledButton)`
   padding-right: 5px;
   font-size: 13px;
   opacity: 0.5;
-  border-radius: 50px;
+  border-radius: 2px;
   bottom: 0px;
   left: -10px;
   &:hover {
