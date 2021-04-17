@@ -35,7 +35,6 @@ const NewsFeed = () => {
             return (
               <>
                 <Post index={index} givenPost={post} />
-                <Border key={post.Id} />
               </>
             );
           })}
@@ -47,17 +46,6 @@ const NewsFeed = () => {
 
 const DisabledCreateAPost = styled.div``;
 
-const NewsFeedWrapper = styled.div``;
-
-const Border = styled.div`
-  width: 90%;
-  margin-left: 5%;
-  margin-bottom: 10px;
-  height: 2px;
-  opacity: 0.5;
-  background: var(--dark-accent);
-`;
-
 const PostsWrapper = styled.div`
   padding-top: 50px;
   margin-bottom: 50px;
@@ -66,8 +54,8 @@ const PostsWrapper = styled.div`
   margin-left: 5%;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
-  border: 5px solid var(--dark-accent);
-  box-shadow: 0 0 20px 5px var(--dark-accent);
+  border: 2px solid var(--primary-border-color);
+  box-shadow: 0 0 4px 1px var(--primary-border-color);
   background: var(--primary-bg-color);
   border-top: none;
 `;

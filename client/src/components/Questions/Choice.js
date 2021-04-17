@@ -28,7 +28,7 @@ const Choice = ({ questionId, index, options }) => {
       allChoices[i].style.borderBottom = "none";
     }
     const chosen = document.getElementById(ev.target.id);
-    chosen.style.borderBottom = "2px solid rgb(255, 160, 71) ";
+    chosen.style.borderBottom = "2px solid var(--primary-border-color) ";
 
     sessionStorage.setItem(questionId, ev.target.innerText);
   };

@@ -28,10 +28,11 @@ const QuestionWrapper = styled.div`
   font-size: 20px;
   margin: 10px;
   padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 0 10px 1px rgb(255, 160, 71, 0.2);
+  border-radius: 2px;
+  box-shadow: 0 0.5px 3px 1px var(--primary-border-color);
 `;
 const Wrapper = styled.div`
-  background: var(--questions-bg-color);
+  background: var(--primary-bg-color);
+  border-radius: 2px;
 `;
 export default Question;

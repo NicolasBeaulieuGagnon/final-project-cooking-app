@@ -221,7 +221,7 @@ const LoginIn = () => {
               <TextInput type="password" name="confirmPassword" required />
             </InputWrapper>
             <InputWrapper>
-              <StyledLabel htmlFor="email">email:</StyledLabel>
+              <StyledLabel htmlFor="email">Email:</StyledLabel>
               <TextInput type="email" name="email" required />
             </InputWrapper>
 

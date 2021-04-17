@@ -8,11 +8,12 @@ import NotStyledButton from "../Button/NoStyledButton";
 import MainStyledButton from "../Button/MainStyledButton";
 import closeBook from "../../assets/closeBook.png";
 import openBook from "../../assets/openBook.png";
+import chefHatLogo from "../../assets/designIcons/004-chef.png";
 import DropDown from "./DropDown";
 
 const NavBar = () => {
   const history = useHistory();
-  const [isBookClosed, setIsBookClosed] = useState(true);
+  const [openCloseDropDown, setOpenCloseDropDown] = useState(false);
 
   const { loggedInUser, setLoggedInUser } = useContext(LoggedInUserContext);
 
@@ -23,15 +24,17 @@ const NavBar = () => {
   };
 
   useEffect(() => {
-    const dropMenu = document.getElementById("dropDown");
-    if (isBookClosed) {
-      dropMenu.style.height = "0px";
+    const dropDown = document.getElementById("dropDown");
+
+    if (openCloseDropDown) {
+      dropDown.style.height = "510px";
     } else {
-      dropMenu.style.height = "268px";
+      dropDown.style.height = "0px";
     }
-  }, [isBookClosed]);
+  }, [openCloseDropDown]);
+
   const handleDropDown = () => {
-    setIsBookClosed(!isBookClosed);
+    setOpenCloseDropDown(!openCloseDropDown);
   };
 
   return (
@@ -40,18 +43,14 @@ const NavBar = () => {
         <Wrapper>
           <BookWrapper>
             <DropDownButton onClick={handleDropDown}>
-              {isBookClosed ? (
-                <Book src={closeBook} />
-              ) : (
-                <OpenBook src={openBook} />
-              )}
+              <Logo src={chefHatLogo} />
             </DropDownButton>
           </BookWrapper>
         </Wrapper>
         <DropDownWrapper>
           <DropDown
-            setIsBookClosed={setIsBookClosed}
-            isBookClosed={isBookClosed}
+            openCloseDropDown={openCloseDropDown}
+            setOpenCloseDropDown={setOpenCloseDropDown}
           />
         </DropDownWrapper>
         {localStorage.getItem("logged in") === "true" ? (
@@ -83,25 +82,26 @@ const StyledLink = styled(Link)`
   color: black;
 `;
 const NavBarWrapper = styled.div`
-  box-shadow: 0 3px 6px 0.2px rgb(120, 41, 15, 0.6);
+  border-bottom: 2px solid var(--dark-accent);
+  box-shadow: 0 3px 6px 0.2px var(--primary-border-color);
   position: relative;
   z-index: 200;
 `;
 
 const DropDownWrapper = styled.div`
+  padding-left: 10px;
   z-index: 10;
   position: absolute;
-  background: var(--primary-bg-color);
-  width: 40vw;
+  background: transparent;
 `;
 
 const LoginButton = styled(MainStyledButton)`
   position: absolute;
   top: 50%;
   right: 10px;
-  transform: translate(0%, -50%);
+
   &:active {
-    transform: translate(0%, -50%) scale(0.9);
+    transform: scale(0.9);
   }
 `;
 const LoggedInUserName = styled.span`
@@ -114,8 +114,9 @@ const LoggedInUserName = styled.span`
   transform: translate(-50%);
 `;
 const LogoutButton = styled(LoginButton)``;
+
 const DropDownButton = styled(NotStyledButton)`
-  transition: 0.1s ease-in-out;
+  transition: 0.2s ease-in-out;
   &:active {
     transform: scale(0.7);
   }
@@ -126,14 +127,10 @@ const BookWrapper = styled.div`
   background: transparent;
 `;
 
-const Book = styled.img`
+const Logo = styled.img`
   padding-left: 10px;
+  padding-top: 5px;
   width: 90%;
-`;
-
-const OpenBook = styled(Book)`
-  padding-left: 0px;
-  width: 115%;
 `;
 
 const Wrapper = styled.div`

@@ -102,7 +102,7 @@ const CreateCookBook = () => {
             <SubmitButton onClick={handleCreateCookBook}>Submit</SubmitButton>
             <SubText>
               Will default to :
-              <ExampleTitle>{loggedInUser.userName}'s Cookbook</ExampleTitle>{" "}
+              <ExampleTitle>{loggedInUser.userName}'s Cookbook</ExampleTitle>
             </SubText>
           </Wrapper>
         ) : (

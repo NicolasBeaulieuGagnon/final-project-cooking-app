@@ -4,117 +4,100 @@ import { Link } from "react-router-dom";
 
 import { LoggedInUserContext } from "../Providers/LoggedInUserProvider";
 
-const DropDown = ({ setIsBookClosed, isBookClosed }) => {
+import fridgeIcon from "../../assets/designIcons/012-fridge.png";
+import newsFeedIcon from "../../assets/designIcons/035-voucher.png";
+import homeIcon from "../../assets/designIcons/home.png";
+import recipeIcon from "../../assets/designIcons/random.png";
+import profileIcon from "../../assets/designIcons/chef.png";
+import aboutIcon from "../../assets/designIcons/016-menu.png";
+import cookbookIcon from "../../assets/designIcons/cookbook.png";
+
+import DropDownItem from "./DropDownItem";
+import NotStyledButton from "../Button/NoStyledButton";
+
+const DropDown = ({ openCloseDropDown, setOpenCloseDropDown }) => {
   const closeDropDown = () => {
-    setIsBookClosed(!isBookClosed);
+    setOpenCloseDropDown(!openCloseDropDown);
   };
 
   const { loggedInUser } = useContext(LoggedInUserContext);
   return (
     <Wrapper id="dropDown">
-      <DropDownList>
-        <ItemLink onClick={closeDropDown} to="/">
-          <DropDownItem>
-            Home
-            <Bar />
-          </DropDownItem>
-        </ItemLink>
-        <ItemLink onClick={closeDropDown} to="/questions">
-          <DropDownItem>
-            Questions
-            <Bar />
-          </DropDownItem>
-        </ItemLink>
-        <ItemLink onClick={closeDropDown} to="/fridge">
-          <DropDownItem>
-            Fridge
-            <Bar />
-          </DropDownItem>
-        </ItemLink>
-        {localStorage.getItem("logged in") === "true" ? (
-          <ItemLink onClick={closeDropDown} to="/profile/:userId">
-            <DropDownItem>
-              Profile
-              <Bar />
-            </DropDownItem>
-          </ItemLink>
-        ) : (
-          <DisabledItem>
-            Profile
-            <Bar />
-          </DisabledItem>
-        )}
+      <DropDownList id="dropDownList">
+        <DropDownItem
+          onClick={closeDropDown}
+          title="Home"
+          icon={homeIcon}
+          link="/"
+        />
 
-        {localStorage.getItem("logged in") === "true" ? (
-          <ItemLink onClick={closeDropDown} to="/newsfeed">
-            <DropDownItem>
-              News Feed
-              <Bar />
-            </DropDownItem>
-          </ItemLink>
-        ) : (
-          <DisabledItem>
-            News Feed
-            <Bar />
-          </DisabledItem>
-        )}
-        <ItemLink onClick={closeDropDown} to="/about">
-          <DropDownItem>
-            About
-            <Bar />
-          </DropDownItem>
-        </ItemLink>
+        <DropDownItem
+          onClick={closeDropDown}
+          title="Recipe"
+          icon={recipeIcon}
+          link="/questions"
+        />
+
+        <DropDownItem
+          onClick={closeDropDown}
+          title="Fridge"
+          icon={fridgeIcon}
+          link="/fridge"
+        />
+
+        <DropDownItem
+          onClick={closeDropDown}
+          title="Profile"
+          icon={profileIcon}
+          link="/profile/:userId"
+          check="profile"
+        />
+
+        <DropDownItem
+          onClick={closeDropDown}
+          title="NewsFeed"
+          icon={newsFeedIcon}
+          link="/newsFeed"
+          check="profile"
+        />
+
+        <DropDownItem
+          onClick={closeDropDown}
+          title="CookBook"
+          icon={cookbookIcon}
+          link="/cookbook/:cookbookId"
+          check="cookbook"
+        />
+
+        <DropDownItem
+          onClick={closeDropDown}
+          title="About"
+          icon={aboutIcon}
+          link="/about"
+        />
       </DropDownList>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
+  border: 2px solid var(--dark-accent);
+  border-top: none;
+  /* margin-left: 10px; */
   font-size: 25px;
   font-weight: bold;
   background: var(--dropDown-bg-color);
-  height: 0px;
-  border-bottom-right-radius: 15px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  height: 0;
   overflow-y: hidden;
   transition: 0.2s ease-in-out;
-`;
-
-const Bar = styled.div`
-  margin-left: 5%;
-  width: 90%;
-  height: 2px;
-  border-radius: 50px;
-  background: rgb(192, 177, 157);
 `;
 const DropDownList = styled.ul`
   text-align: center;
   list-style: none;
   margin-top: 0;
   padding-left: 0;
-`;
-const DropDownItem = styled.li`
-  padding: 5px;
-  transition: 0.1s ease-in-out;
-  &:hover {
-    color: var(--primary-bg-color);
-    background: var(--dark-accent);
-  }
-  &:active {
-    transform: scale(0.9);
-    color: black;
-    background: var(--primary-bg-color);
-  }
-`;
-
-const DisabledItem = styled.li`
-  cursor: default;
-  padding: 5px;
-  opacity: 0.3;
-`;
-
-const ItemLink = styled(Link)`
-  color: black;
-  text-decoration: none;
 `;
 
 export default DropDown;
