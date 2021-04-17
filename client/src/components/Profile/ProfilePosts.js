@@ -10,8 +10,8 @@ const ProfilePosts = ({ user, posts }) => {
       <Border />
       {posts?.length > 0 ? (
         <Feed>
-          {posts.map((post) => {
-            return <Post key={post._id} givenPost={post} />;
+          {posts.map((post, index) => {
+            return <Post index={index} key={post._id} givenPost={post} />;
           })}
         </Feed>
       ) : (

@@ -53,7 +53,7 @@ const Profile = () => {
         });
       });
     }
-  }, [loggedInUser]);
+  }, [loggedInUser, userId]);
 
   useEffect(() => {
     if (userInfo.hasCookBook) {

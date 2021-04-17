@@ -19,7 +19,6 @@ const AvatarOptionModal = ({ userAvatar, setUserAvatar }) => {
     userUploadImage.value = "";
     setUserAvatar(ev.target.id);
   };
-  const handleNoChoice = () => {};
   const handleClose = () => {
     const modal = document.getElementById("avatarModalBg");
     if (modal) {

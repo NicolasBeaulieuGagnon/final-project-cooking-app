@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 
 import ActionBar from "./ActionBar";
@@ -6,10 +6,22 @@ import AuthorPostInfo from "./AuthorPostInfo";
 import { LoggedInUserContext } from "../Providers/LoggedInUserProvider";
 import MainStyledButton from "../Button/MainStyledButton";
 
-const Post = ({ givenPost }) => {
+const Post = ({ givenPost, index }) => {
   const [isEditing, setIsEditing] = useState();
   const { loggedInUser } = useContext(LoggedInUserContext);
   const { author, edited, numLikes, post, postImage, posted, _id } = givenPost;
+
+  useEffect(() => {
+    const postEntrance = document.getElementById(_id);
+    setTimeout(() => {
+      setTimeout(() => {
+        postEntrance.style.transform = "translate(40%)";
+        setTimeout(() => {
+          postEntrance.style.transform = "translate(0%)";
+        }, 300);
+      }, 300);
+    }, index * 100);
+  }, []);
 
   const handleEdit = () => {
     setIsEditing(!isEditing);
@@ -130,10 +142,12 @@ const Wrapper = styled.div`
   padding: 5px 20px;
   border-radius: 5px;
   margin: 10px 40px;
-  min-width: 350px;
+  min-width: 200px;
   max-width: 800px;
   min-height: 230px;
   position: relative;
+  transform: translate(-200%);
   background: var(--post-bg-color);
+  transition: 0.3s ease-in-out;
 `;
 export default Post;
