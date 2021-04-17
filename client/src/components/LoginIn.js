@@ -15,8 +15,10 @@ const LoginIn = () => {
   const [errors, setErrors] = useState([]);
   const [userForm, setUserForm] = useState({});
   const [secretUrl, setSecretUrl] = useState("");
+  const [mediaChoice, setMediaChoice] = useState("");
 
   const { setLoggedInUser } = useContext(LoggedInUserContext);
+
   const handleLogin = () => {
     const loginEmail = document
       .getElementById("loginEmailId")
@@ -172,6 +174,7 @@ const LoginIn = () => {
         <AvatarOptionModal
           userAvatar={userAvatar}
           setUserAvatar={setUserAvatar}
+          setMediaChoice={setMediaChoice}
         />
         <LoginSectionWrapper>
           <LoginWrapper>Already own an account?</LoginWrapper>

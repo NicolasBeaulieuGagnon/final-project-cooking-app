@@ -8,7 +8,9 @@ import NotStyledButton from "../Button/NoStyledButton";
 import { useHistory } from "react-router";
 
 const CreateCookBook = () => {
-  const { loggedInUser } = useContext(LoggedInUserContext);
+  const { loggedInUser, updatingUser, setUpdatingUser } = useContext(
+    LoggedInUserContext
+  );
   const [newBookObj, setNewBookObj] = useState({});
   const [creating, setCreating] = useState(false);
   const [createdCookBook, setCreatedCookBook] = useState(null);
@@ -34,6 +36,7 @@ const CreateCookBook = () => {
       }).then((res) => {
         res.json().then((data) => {
           setTimeout(() => {
+            setUpdatingUser(!updatingUser);
             setCreatedCookBook(data.data.newCookBook);
             const creationComplete = document.getElementById(
               "creationComplete"

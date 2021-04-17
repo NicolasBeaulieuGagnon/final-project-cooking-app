@@ -4,19 +4,38 @@ export const LoggedInUserContext = createContext(null);
 
 export const LoggedInUserProvider = ({ children }) => {
   const [loggedInUser, setLoggedInUser] = useState({});
-
+  const [updatingUser, setUpdatingUser] = useState(true);
+  const [loggedInUserCookBook, setLoggedInUserCookBook] = useState({});
+  console.log(loggedInUserCookBook);
   useEffect(() => {
     if (localStorage.getItem("logged in") === "true") {
       fetch(`/users/user/${localStorage.getItem("userId")}`).then((res) => {
         res.json().then((data) => {
           setLoggedInUser(data.data);
+
+          if (data.data.hasCookBook === true) {
+            fetch(`/cookbook/${data.data.cookBook}`).then((res) => {
+              res.json().then((data) => {
+                setLoggedInUserCookBook(data.data);
+              });
+            });
+          }
         });
       });
     }
-  }, []);
+  }, [updatingUser]);
 
   return (
-    <LoggedInUserContext.Provider value={{ loggedInUser, setLoggedInUser }}>
+    <LoggedInUserContext.Provider
+      value={{
+        updatingUser,
+        setUpdatingUser,
+        loggedInUser,
+        setLoggedInUser,
+        loggedInUserCookBook,
+        setLoggedInUserCookBook,
+      }}
+    >
       {children}
     </LoggedInUserContext.Provider>
   );

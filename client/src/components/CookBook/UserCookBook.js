@@ -1,7 +1,7 @@
 import React from "react";
 
-const UserCookBook = () => {
+const UserCookBookDetails = () => {
   return <div></div>;
 };
 
-export default UserCookBook;
+export default UserCookBookDetails;
