@@ -12,6 +12,7 @@ const {
 
 const {
   createPost,
+  changePost,
   editPost,
   deletePost,
   getPostById,
@@ -63,6 +64,8 @@ express()
   .get("/posts/post/:postId", getPostById)
   // POST new post
   .post("/posts/post", createPost)
+  // PATCH end point for changes regarding un/like and un/follow
+  .patch("/postInteraction", changePost)
   // PATCH edit post posted by user
   .patch("/posts/post/:postId", editPost)
   // DELETE remove post posted by user

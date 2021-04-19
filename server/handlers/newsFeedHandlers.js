@@ -38,7 +38,7 @@ const createPost = async (req, res) => {
       },
       numLikes: 0,
       likedBy: [],
-      numFollows: 0,
+      comments: [],
       followedBy: [],
       edited: false,
     };
@@ -90,6 +90,119 @@ const editPost = async (req, res) => {
       message: err.message,
     });
   }
+  client.close();
+  console.log("disconnect");
+};
+
+const changePost = async (req, res) => {
+  const client = await MongoClient(MONGO_URI, options);
+  await client.connect();
+  const db = client.db("recipe-app");
+  console.log("connected");
+  const {
+    reason,
+    userId,
+    postId,
+    numberAmount,
+    arrayOfIds,
+    authorId,
+  } = req.body;
+  try {
+    let arrayChanges;
+    let numberChanges;
+    let targetCollection;
+    let query;
+
+    const postAuthor = await db.collection("users").findOne({ _id: authorId });
+    const userQuery = { _id: userId };
+    switch (reason) {
+      case "like":
+        targetCollection = "newsFeed";
+        query = { _id: postId };
+
+        arrayChanges = { $addToSet: { likedBy: userId } };
+        numberChanges = { $set: { numLikes: numberAmount + 1 } };
+        const changedAuthorValue = {
+          $set: { numOfLikes: postAuthor.numOfLikes + 1 },
+        };
+        const authorQuery = { _id: authorId };
+        await db.collection("users").updateOne(authorQuery, changedAuthorValue);
+        break;
+
+      case "unlike":
+        const newArrayOfIds = arrayOfIds.filter((id) => {
+          return id !== userId;
+        });
+
+        targetCollection = "newsFeed";
+        query = { _id: postId };
+
+        arrayChanges = { $set: { likedBy: newArrayOfIds } };
+        numberChanges = { $set: { numLikes: numberAmount - 1 } };
+
+        break;
+
+      case "follow":
+        targetCollection = "users";
+        query = { _id: authorId };
+        authorFollowAmount = postAuthor.numOfFollowers;
+        arrayChanges = { $addToSet: { followedBy: userId } };
+        numberChanges = { $set: { numOfFollowers: authorFollowAmount + 1 } };
+
+        // adding the author's Id the the followingById array in the user
+
+        const newArrayOfFollowingById = {
+          $addToSet: { followingById: authorId },
+        };
+
+        await db
+          .collection("users")
+          .updateOne(userQuery, newArrayOfFollowingById);
+
+        break;
+
+      case "unfollow":
+        const newArrayOfFollowIds = postAuthor.followedBy.filter((id) => {
+          return id !== userId;
+        });
+        targetCollection = "users";
+        query = { _id: authorId };
+        authorFollowAmount = postAuthor.numOfFollowers;
+        arrayChanges = { $set: { followedBy: newArrayOfFollowIds } };
+        numberChanges = { $set: { numOfFollowers: authorFollowAmount - 1 } };
+
+        const newFilteredArray = arrayOfIds.filter((id) => {
+          return id !== authorId;
+        });
+        const filteredArrayOfFollowingById = {
+          $set: { followingById: newFilteredArray },
+        };
+
+        await db
+          .collection("users")
+          .updateOne(userQuery, filteredArrayOfFollowingById);
+
+        break;
+    }
+
+    const newArrayValue = arrayChanges;
+    const newNumberValue = numberChanges;
+    await db.collection(targetCollection).updateOne(query, newArrayValue);
+    await db.collection(targetCollection).updateOne(query, newNumberValue);
+
+    res
+      .status(200)
+      .json({ status: 200, data: reason, message: `successfully ${reason}` });
+  } catch (err) {
+    res.status(404).json({
+      status: 404,
+      data: "",
+      message: err.message,
+    });
+  }
+
+  client.close();
+  console.log("disconnected");
 };
 
 const deletePost = async (req, res) => {
@@ -210,6 +323,7 @@ const getPostsByUserId = async (req, res) => {
 module.exports = {
   createPost,
   editPost,
+  changePost,
   deletePost,
   getPostById,
   getNewsFeed,

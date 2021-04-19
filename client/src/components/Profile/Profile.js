@@ -8,14 +8,18 @@ import NotStyledButton from "../Button/NoStyledButton";
 import { HiOutlinePlusCircle } from "react-icons/hi";
 import ProfilePosts from "./ProfilePosts";
 import ProfileCookBook from "./ProfileCookBook";
+import ProfileFollowers from "./ProfileFollowers";
 import MainStyledButton from "../Button/MainStyledButton";
+import NewAvatarModal from "../Modals/NewAvatarModal";
 
 const Profile = () => {
   const [panelContent, setPanelContent] = useState(null);
   const [userInfo, setUserInfo] = useState({});
   const [userPosts, setUserPosts] = useState([]);
   const [userCookBook, setUserCookBook] = useState(null);
-  const { loggedInUser } = useContext(LoggedInUserContext);
+  const { loggedInUser, updatingUser, setUpdatingUser } = useContext(
+    LoggedInUserContext
+  );
   const { userId } = useParams();
 
   useEffect(() => {
@@ -70,23 +74,87 @@ const Profile = () => {
     const panelHeight = document.getElementById("panelId");
     panelHeight.style.height = "auto";
   };
+
+  const handleChangeAvatar = () => {
+    const avatarModalBg = document.getElementById("avatarChangeModalBg");
+    const avatarModal = document.getElementById("avatarChangeModal");
+    avatarModalBg.style.opacity = "1";
+    avatarModalBg.style.visibility = "visible";
+    avatarModal.style.top = "50%";
+  };
+
+  const ClickUploadInput = () => {
+    document.getElementById("uploadBannerInput").click();
+  };
+
+  const handleUploadBanner = (ev) => {
+    console.log(ev.target.files[0]);
+
+    fetch(`/s3Url`).then((res) => {
+      res.json().then((data) => {
+        const secretUrl = data.url;
+        const file = ev.target.files[0];
+        const image = secretUrl.split("?")[0];
+
+        fetch(secretUrl, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          body: file,
+        });
+
+        fetch(`/users/user/${loggedInUser._id}`, {
+          method: "PATCH",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ bannerSrc: image }),
+        }).then(() => {
+          setUpdatingUser(!updatingUser);
+        });
+      });
+    });
+  };
   return (
     <>
+      <NewAvatarModal
+        updatingUser={updatingUser}
+        setUpdatingUser={setUpdatingUser}
+        loggedInUser={loggedInUser}
+      />
       <Wrapper>
-        {userInfo.bannerSrc === "" && userId === ":userId" && (
-          <AddBannerButton>
-            <HiOutlinePlusCircle size="70" />
-          </AddBannerButton>
-        )}
-        {userInfo.bannerSrc === "" ? (
-          <ReplaceBanner />
+        <UploadBannerInput
+          id="uploadBannerInput"
+          onChange={handleUploadBanner}
+          type="file"
+        />
+        {userId === ":userId" ? (
+          userInfo.bannerSrc === "" ? (
+            <AddBannerButton onClick={ClickUploadInput}>
+              <HiOutlinePlusCircle size="70" />
+            </AddBannerButton>
+          ) : (
+            <>
+              <EditBannerButton onClick={ClickUploadInput}>
+                <HiOutlinePlusCircle size="40" />
+              </EditBannerButton>
+              <ImageBannerWrapper>
+                <Banner src={userInfo.bannerSrc} />
+              </ImageBannerWrapper>
+            </>
+          )
+        ) : userInfo.bannerSrc === "" ? (
+          <ReplaceBanner></ReplaceBanner>
         ) : (
           <ImageBannerWrapper>
             <Banner src={userInfo.bannerSrc} />
           </ImageBannerWrapper>
         )}
+
         {userId === ":userId" ? (
-          <EditAvatarButton>
+          <EditAvatarButton onClick={handleChangeAvatar}>
             <EditableAvatar src={userInfo.avatarSrc} alt="userAvatar" />
           </EditAvatarButton>
         ) : (
@@ -121,16 +189,16 @@ const Profile = () => {
               )}
             </ProfileWrapper>
             <ButtonsWrapper>
-              <CookBookButton
+              <PanelButton
                 onClick={() => {
                   handlePanelChange("cookbook");
-                  document.body.scrollTop = 500;
-                  document.documentElement.scrollTop = 500;
+                  document.body.scrollTop = 1000;
+                  document.documentElement.scrollTop = 1000;
                 }}
               >
                 Cookbook
-              </CookBookButton>
-              <PostsButton
+              </PanelButton>
+              <PanelButton
                 onClick={() => {
                   handlePanelChange("posts");
                   document.body.scrollTop = 1000;
@@ -138,15 +206,31 @@ const Profile = () => {
                 }}
               >
                 Posts
-              </PostsButton>
+              </PanelButton>
+              <PanelButton
+                onClick={() => {
+                  handlePanelChange("following");
+                  document.body.scrollTop = 1000;
+                  document.documentElement.scrollTop = 1000;
+                }}
+              >
+                Following
+              </PanelButton>
             </ButtonsWrapper>
           </LeftFadingBorder>
         </FadingBorder>
         <Panel id="panelId">
           {panelContent && panelContent === "cookbook" ? (
             <ProfileCookBook user={userInfo.userName} cookBook={userCookBook} />
-          ) : (
+          ) : panelContent === "posts" ? (
             <ProfilePosts user={userInfo.userName} posts={userPosts} />
+          ) : panelContent === "following" ? (
+            <ProfileFollowers
+              user={userInfo.userName}
+              following={userInfo.followingById}
+            />
+          ) : (
+            <div></div>
           )}
         </Panel>
       </Wrapper>
@@ -164,12 +248,33 @@ const Panel = styled.div`
   overflow-y: scroll;
   transition: 0.5s ease-in;
 `;
+
+const ReplaceBanner = styled.div`
+  position: relative;
+  z-index: 1;
+  background: var(--dropDown-bg-color);
+  border-bottom: 3px solid var(--dark-accent);
+  box-shadow: 0 10px 20px 0.1px var(--btn-bg-color);
+  height: 130px;
+  width: 100%;
+`;
+
+const UploadBannerInput = styled.input`
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 0.1px;
+  height: 0.1px;
+  position: absolute;
+  z-index: -200;
+`;
+
 const ProfileWrapper = styled.div`
   padding-left: 20px;
   padding-top: 20px;
   background: var(--primary-bg-color);
   width: 200px;
-  height: 400px;
+  height: 372px;
 `;
 
 const Name = styled.div`
@@ -237,15 +342,6 @@ const Banner = styled.img`
   width: 100%;
 `;
 
-const ReplaceBanner = styled.div`
-  position: relative;
-  z-index: 1;
-  background: var(--primary-bg-color);
-  border-bottom: 3px solid var(--dark-accent);
-  box-shadow: 0 10px 20px 0.1px var(--btn-bg-color);
-  height: 130px;
-  width: 100%;
-`;
 const AddBannerButton = styled(NotStyledButton)`
   z-index: 2;
   opacity: 0.4;
@@ -261,6 +357,13 @@ const AddBannerButton = styled(NotStyledButton)`
     transform: translate(-50%) scale(0.8);
   }
 `;
+const EditBannerButton = styled(AddBannerButton)`
+  color: white;
+  opacity: 1;
+  top: 10px;
+  left: 30px;
+`;
+
 const AvatarWrapper = styled.div`
   z-index: 10;
   border: 3px solid var(--dark-accent);
@@ -275,11 +378,11 @@ const AvatarWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--dropDown-bg-color);
+  background-color: transparent;
 `;
 const Avatar = styled.img`
-  height: 100%;
-  width: auto;
+  height: auto;
+  width: 100%;
 `;
 const Bio = styled.div`
   margin-top: 10px;
@@ -304,7 +407,10 @@ const StatsWrapper = styled.div`
 
 const ButtonsWrapper = styled.div`
   position: relative;
-  width: 350px;
+  width: 90vw;
+  height: 70px;
+  display: flex;
+  justify-content: flex-start;
 `;
 
 const EditableAvatar = styled(Avatar)`
@@ -335,20 +441,16 @@ const EditAvatarButton = styled(NotStyledButton)`
   background-color: var(--dropDown-bg-color);
 `;
 
-const CookBookButton = styled(MainStyledButton)`
-  bottom: -23px;
-  padding: 10px 25px;
-  transition: 0.1s ease-in-out;
-  box-shadow: 0 -5px 20px 0.1px var(--btn-bg-color);
-  &:active {
-    padding-top: 40px;
-    bottom: -30px;
+const PanelButton = styled(MainStyledButton)`
+  position: relative;
+  margin-bottom: 20px;
+  &:hover {
+    transform: translate(0, -2%);
+    padding-bottom: 18px;
+    text-shadow: 2px 2px white;
   }
 `;
-const PostsButton = styled(CookBookButton)`
-  padding: 10px 43px;
-  right: 2px;
-`;
+
 const Wrapper = styled.div`
   background: transparent;
   position: relative;

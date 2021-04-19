@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import Post from "../Post/Post";
 
-const ProfilePosts = ({ user, posts }) => {
+const ProfilePosts = ({ posts }) => {
   return (
     <Wrapper>
       <Title>Posts</Title>

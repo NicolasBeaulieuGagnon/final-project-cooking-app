@@ -13,7 +13,9 @@ const AuthorPostInfo = ({ author, posted }) => {
         }}
         to={`/profile/${author.authorId}`}
       >
-        <Avatar src={author.authorAvatarSrc} />
+        <AvatarWrapper>
+          <Avatar src={author.authorAvatarSrc} />
+        </AvatarWrapper>
         <Name>{author.handle}</Name>
       </StyledLink>
       <PostedTime>posted: {moment(posted).format("ll")}</PostedTime>
@@ -28,6 +30,31 @@ const PostedTime = styled.div`
   font-size: 15px;
   font-style: italic;
   opacity: 0.8;
+`;
+
+const Avatar = styled.img`
+  width: 100%;
+  height: auto;
+`;
+
+const AvatarWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--dropDown-bg-color);
+  border: 2px solid var(--dark-accent);
+  margin: 15px 10px;
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  transition: 0.2s ease-in-out;
+  &:hover {
+    transform: rotate(5deg);
+  }
+  &:active {
+    transform: scale(0.95);
+  }
 `;
 
 const StyledLink = styled(Link)`
@@ -46,7 +73,7 @@ const Name = styled.span`
   border-radius: 5px;
   border: 2px solid var(--primary-border-color);
   position: absolute;
-  top: 87px;
+  top: 65px;
   left: 60px;
   font-size: 24px;
   font-weight: bold;
@@ -58,18 +85,5 @@ const Name = styled.span`
     transform: scale(0.95);
   }
 `;
-const Avatar = styled.img`
-  background: var(--dropDown-bg-color);
-  border: 2px solid var(--dark-accent);
-  margin: 15px 10px;
-  border-radius: 50%;
-  width: 90px;
-  transition: 0.2s ease-in-out;
-  &:hover {
-    transform: rotate(5deg);
-  }
-  &:active {
-    transform: scale(0.95);
-  }
-`;
+
 export default AuthorPostInfo;

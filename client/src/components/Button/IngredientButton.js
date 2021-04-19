@@ -13,20 +13,20 @@ export const IngredientButton = ({ name, image, text }) => {
           src={`https://spoonacular.com/cdn/ingredients_100x100/${image}`}
         />
       )}
-      <IngredientItem>{name}</IngredientItem>
       <SubText>{text}</SubText>
     </IngredientItemButton>
   );
 };
 
 const IngredientImage = styled.img`
+  margin-right: 30px;
   width: 50px;
   height: 50px;
 `;
 const IngredientItemButton = styled.button`
   font-size: 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   font-weight: bold;
   opacity: ${(props) => {
     return props.hasItem === true ? "0.5" : "1";

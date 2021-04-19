@@ -34,7 +34,7 @@ span {
   margin: 0;
   padding: 0;
   border: 0;
-  background: #F8F9FA;
+  background: var(--primary-bg-color);
   vertical-align: baseline;
 }
 

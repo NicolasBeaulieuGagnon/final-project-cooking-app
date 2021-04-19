@@ -151,7 +151,9 @@ const CreatePost = ({ setCreatedPost, createdPost, user }) => {
         setMediaChoice={setMediaChoice}
       />
       <UserWrapper>
-        <UserAvatar src={user.avatarSrc} />
+        <AvatarWrapper>
+          <UserAvatar src={user.avatarSrc} />
+        </AvatarWrapper>
         <Handle>{user.userName}</Handle>
       </UserWrapper>
       <TextArea
@@ -280,17 +282,29 @@ const InputFileButton = styled(MainStyledButton)`
   margin-left: 150px;
 `;
 
-const UserAvatar = styled.img`
-  background: var(--dropDown-bg-color);
-  border: 2px solid var(--dark-accent);
-  margin: 15px 10px;
-  margin-left: 5%;
-  border-radius: 50%;
+const AvatarWrapper = styled.div`
+  margin-left: 35px;
+  z-index: 10;
+  border: 3px solid var(--dark-accent);
+  box-shadow: 0 10px 20px 0.1px var(--btn-bg-color);
   width: 90px;
-  transition: 0.2s ease-in-out;
+  height: 90px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--dropDown-bg-color);
+`;
+
+const UserAvatar = styled.img`
+  height: 100%;
+  width: auto;
 `;
 
 const UserWrapper = styled.div`
+  padding-top: 35px;
+
   background: transparent;
   position: relative;
 `;

@@ -41,6 +41,7 @@ const createNewUser = async (req, res) => {
       password,
       joined,
       bio,
+      followedBy: [],
       numOfFollowers: 0,
       numOfLikes: 0,
       hasCookBook: false,
@@ -128,6 +129,8 @@ const getUser = async (req, res) => {
   } catch (err) {
     res.status(404).json({ status: 404, data: userId, message: err.message });
   }
+  client.close();
+  console.log("disconnected");
 };
 
 const LoginUser = async (req, res) => {
