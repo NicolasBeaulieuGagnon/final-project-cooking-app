@@ -20,6 +20,17 @@ const Recipe = () => {
   const { recipeId } = useParams();
 
   useEffect(() => {
+    if (loggedInUser.hasCookBook === false) {
+      const button = document.getElementById("addToCookBookButton");
+      if (button) {
+        button.disabled = true;
+      }
+    } else {
+      const button = document.getElementById("addToCookBookButton");
+      if (button) {
+        button.disabled = false;
+      }
+    }
     if (
       localStorage.getItem("logged in") === "true" &&
       loggedInUser.hasCookBook &&
@@ -112,13 +123,22 @@ const Recipe = () => {
                   Servings:
                   <Bold>{fullRecipe.servings}</Bold>
                 </DetailedInfo>
-                {ownsThisRecipe ? (
-                  <OwnedRecipe>In Cookbook</OwnedRecipe>
+                {loggedInUser.hasCookBook ? (
+                  ownsThisRecipe ? (
+                    <OwnedRecipe>In Cookbook</OwnedRecipe>
+                  ) : (
+                    <AddCookBookBtn
+                      id="addToCookBookButton"
+                      onClick={handleAddToCookBook}
+                    >
+                      {" "}
+                      Add to Cook book{" "}
+                    </AddCookBookBtn>
+                  )
                 ) : (
-                  <AddCookBookBtn onClick={handleAddToCookBook}>
-                    {" "}
-                    Add to Cook book{" "}
-                  </AddCookBookBtn>
+                  <OwnedRecipe>
+                    Create a cookbook to keep this recipe
+                  </OwnedRecipe>
                 )}
               </DetailedInfoWrapper>
               <RecipeDescription id="recipeDescription"></RecipeDescription>

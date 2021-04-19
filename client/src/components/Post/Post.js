@@ -9,7 +9,7 @@ import MainStyledButton from "../Button/MainStyledButton";
 const Post = ({ givenPost, index }) => {
   const [isEditing, setIsEditing] = useState();
   const { loggedInUser } = useContext(LoggedInUserContext);
-  const { author, edited, numLikes, post, postImage, posted, _id } = givenPost;
+  const { author, edited, post, postImage, posted, _id } = givenPost;
 
   useEffect(() => {
     const postEntrance = document.getElementById(_id);
@@ -22,10 +22,10 @@ const Post = ({ givenPost, index }) => {
       }, 300);
     }, index * 100);
   }, []);
-
   const handleEdit = () => {
     setIsEditing(!isEditing);
   };
+
   return (
     <Wrapper key={_id} id={_id}>
       <AuthorPostInfo author={author} posted={posted} />
@@ -43,7 +43,14 @@ const Post = ({ givenPost, index }) => {
 
       {postImage === "" ? <div></div> : <PostImg src={postImage} />}
 
-      <ActionBar numLikes={numLikes} />
+      <ActionBar
+        authorId={givenPost.author.authorId}
+        arrayOfIds={givenPost.likedBy}
+        postId={givenPost._id}
+        numFollows={givenPost.numFollows}
+        numLikes={givenPost.numLikes}
+        likedBy={givenPost.likedBy}
+      />
       {author.authorId === loggedInUser._id && (
         <EditPostButton onClick={handleEdit}>Edit </EditPostButton>
       )}
