@@ -19,7 +19,7 @@ const CookBookRecipeCard = ({ recipe, index }) => {
   }, []);
 
   return (
-    <RecipeWrapper id={recipe.recipeId}>
+    <RecipeWrapper key={recipe.recipeId} id={recipe.recipeId}>
       <RecLink to={`/recipe/${recipe.recipeId}`}>
         <RecName>{recipe.recipeTitle}</RecName>
         <RecImgWrapper>
@@ -34,8 +34,8 @@ const RecName = styled.div``;
 
 const RecImgWrapper = styled.div`
   border: 3px solid var(--primary-border-color);
-  width: 170px;
-  height: 170px;
+  width: 150px;
+  height: 150px;
   overflow: hidden;
   position: absolute;
   left: 50%;
@@ -55,15 +55,15 @@ const RecLink = styled(Link)`
 
 const RecipeWrapper = styled.div`
   position: relative;
-  margin: 2px 10px;
+  margin: 5px 5px;
   padding: 5px 10px;
   font-size: 20px;
   font-weight: bold;
   display: flex;
   flex-direction: column;
   border-radius: 2px;
-  width: 200px;
-  height: 270px;
+  width: 170px;
+  height: 280px;
   transition: 0.2s ease-in-out;
   opacity: 0;
   transform: translate(0, -200%);

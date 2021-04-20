@@ -7,7 +7,7 @@ export const IngredientButton = ({ name, image, text }) => {
     setHasItem(!hasItem);
   };
   return (
-    <IngredientItemButton hasItem={hasItem} onClick={handleHasItem}>
+    <IngredientItemButton key={name} hasItem={hasItem} onClick={handleHasItem}>
       {image && (
         <IngredientImage
           src={`https://spoonacular.com/cdn/ingredients_100x100/${image}`}

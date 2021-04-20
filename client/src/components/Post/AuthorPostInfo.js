@@ -6,6 +6,17 @@ import moment from "moment";
 const AuthorPostInfo = ({ author, posted }) => {
   return (
     <Wrapper>
+      <AvatarWrapper>
+        <StyledLink
+          onClick={() => {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+          }}
+          to={`/profile/${author.authorId}`}
+        >
+          <Avatar src={author.authorAvatarSrc} />
+        </StyledLink>
+      </AvatarWrapper>
       <StyledLink
         onClick={() => {
           document.body.scrollTop = 0;
@@ -13,9 +24,6 @@ const AuthorPostInfo = ({ author, posted }) => {
         }}
         to={`/profile/${author.authorId}`}
       >
-        <AvatarWrapper>
-          <Avatar src={author.authorAvatarSrc} />
-        </AvatarWrapper>
         <Name>{author.handle}</Name>
       </StyledLink>
       <PostedTime>posted: {moment(posted).format("ll")}</PostedTime>

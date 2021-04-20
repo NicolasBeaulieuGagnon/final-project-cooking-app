@@ -7,7 +7,7 @@ import CreatePost from "../Post/CreatePost";
 
 const NewsFeed = () => {
   const [allPosts, setAllPosts] = useState([]);
-  const [createdPost, setCreatedPost] = useState(true);
+  const [createdPost, setCreatedPost] = useState([]);
   const { loggedInUser } = useContext(LoggedInUserContext);
 
   useEffect(() => {
@@ -16,8 +16,16 @@ const NewsFeed = () => {
         setAllPosts(data.data.reverse());
       });
     });
-  }, [createdPost]);
+    return () => {
+      fetch("/newsFeed").then((res) => {
+        res.json().then((data) => {
+          setAllPosts(data.data.reverse());
+        });
+      });
+    };
+  }, []);
 
+  console.log(createdPost);
   return (
     <Wrapper>
       {localStorage.getItem("logged in") === "true" ? (
@@ -29,17 +37,17 @@ const NewsFeed = () => {
       ) : (
         <DisabledCreateAPost>Log In to be able to post.</DisabledCreateAPost>
       )}
-      {allPosts.length > 0 && (
-        <PostsWrapper>
-          {allPosts.map((post, index) => {
-            return (
-              <>
-                <Post index={index} givenPost={post} />
-              </>
-            );
+
+      <PostsWrapper>
+        {createdPost.length > 0 &&
+          createdPost.map((post, index) => {
+            return <Post key={index} index={index} givenPost={post} />;
           })}
-        </PostsWrapper>
-      )}
+        {allPosts.length > 0 &&
+          allPosts.map((post, index) => {
+            return <Post key={index} index={index} givenPost={post} />;
+          })}
+      </PostsWrapper>
     </Wrapper>
   );
 };
@@ -55,13 +63,14 @@ const PostsWrapper = styled.div`
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   border: 2px solid var(--primary-border-color);
-  box-shadow: 0 0 4px 1px var(--primary-border-color);
+  box-shadow: 0 0 20px 1px var(--slight-box-shadow);
   background: var(--primary-bg-color);
   border-top: none;
 `;
 const Wrapper = styled.div`
   position: relative;
-  background: var(--primary-bg-color);
+  background: var(--light-bg-color);
+  overflow-x: hidden;
 `;
 
 export default NewsFeed;

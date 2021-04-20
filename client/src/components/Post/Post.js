@@ -21,7 +21,8 @@ const Post = ({ givenPost, index }) => {
         }, 300);
       }, 300);
     }, index * 100);
-  }, []);
+  }, [givenPost]);
+
   const handleEdit = () => {
     setIsEditing(!isEditing);
   };

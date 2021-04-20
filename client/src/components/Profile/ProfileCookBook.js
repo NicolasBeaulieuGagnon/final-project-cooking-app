@@ -23,7 +23,9 @@ const ProfileCookBook = ({ user, cookBook }) => {
               <Info>holds {cookBook.recipes.length} recipes</Info>
             </BookInfo>
             {cookBook.recipes.length > 0 ? (
-              <RecipesWrapper>
+              <RecipesWrapper
+                style={{ paddingLeft: "5px", paddingRight: "5px" }}
+              >
                 {cookBook.recipes.map((recipe, index) => {
                   return <CookBookRecipeCard recipe={recipe} index={index} />;
                 })}
@@ -59,7 +61,7 @@ const BookInfo = styled.div`
 const Info = styled.div``;
 
 const RecipesWrapper = styled.div`
-  padding: 20px 40px;
+  padding: 1px 40px;
   display: flex;
   flex-wrap: wrap;
 `;

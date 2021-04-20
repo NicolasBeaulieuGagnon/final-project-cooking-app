@@ -5,6 +5,8 @@ export const RecipeProvider = ({ children }) => {
   const [isGettingRecipe, setIsGettingRecipe] = useState(true);
   const [filteredRecipe, setFilteredRecipe] = useState([]);
   const [filterInformation, setFilterInformation] = useState([]);
+  const [fullArray, setFullArray] = useState([]);
+  const [retryRandom, setRetryRandom] = useState(true);
   const [url, setUrl] = useState(null);
 
   useEffect(() => {
@@ -18,25 +20,25 @@ export const RecipeProvider = ({ children }) => {
               filterInformation[3] === "none of these")
           ) {
             setUrl(
-              `https://api.spoonacular.com/recipes/random?apiKey=${data.data}&number=3`
+              `https://api.spoonacular.com/recipes/random?apiKey=${data.data}&number=50`
             );
           } else if (
             filterInformation[1] === "no" ||
             filterInformation[1] === "none of these"
           ) {
             setUrl(
-              `https://api.spoonacular.com/recipes/complexSearch?apiKey=${data.data}&${filterInformation[2]}=${filterInformation[3]}&number=3`
+              `https://api.spoonacular.com/recipes/complexSearch?apiKey=${data.data}&${filterInformation[2]}=${filterInformation[3]}&number=50`
             );
           } else if (
             filterInformation[3] === "no" ||
             filterInformation[3] === "none of these"
           ) {
             setUrl(
-              `https://api.spoonacular.com/recipes/complexSearch?apiKey=${data.data}&${filterInformation[0]}=${filterInformation[1]}&number=3`
+              `https://api.spoonacular.com/recipes/complexSearch?apiKey=${data.data}&${filterInformation[0]}=${filterInformation[1]}&number=50`
             );
           } else {
             setUrl(
-              `https://api.spoonacular.com/recipes/complexSearch?apiKey=${data.data}&${filterInformation[0]}=${filterInformation[1]}&${filterInformation[2]}=${filterInformation[3]}&number=3`
+              `https://api.spoonacular.com/recipes/complexSearch?apiKey=${data.data}&${filterInformation[0]}=${filterInformation[1]}&${filterInformation[2]}=${filterInformation[3]}&number=50`
             );
           }
         });
@@ -44,15 +46,47 @@ export const RecipeProvider = ({ children }) => {
     }
   }, [isGettingRecipe]);
 
+  let numOne;
+  let numTwo;
+  let numThree;
+
+  const getRandomNumber = (array) => {
+    numOne = Math.round(Math.random() * (array.length - 1));
+    numTwo = Math.round(Math.random() * (array.length - 1));
+    numThree = Math.round(Math.random() * (array.length - 1));
+
+    if (numOne === numTwo || numOne === numThree || numTwo === numThree) {
+      setRetryRandom(!retryRandom);
+      return false;
+    } else {
+      return [numOne, numTwo, numThree];
+    }
+  };
+
   useEffect(() => {
-    console.log(url);
+    if (fullArray?.length > 3) {
+      const result = getRandomNumber(fullArray);
+      if (result) {
+        setFilteredRecipe([
+          fullArray[result[0]],
+          fullArray[result[1]],
+          fullArray[result[2]],
+        ]);
+      }
+    } else {
+      setFilteredRecipe(fullArray);
+    }
+  }, [retryRandom, url, fullArray]);
+
+  useEffect(() => {
     if (url) {
-      console.log("calling question recipe API");
-      console.log(url);
       fetch(url).then((res) => {
         res.json().then((data) => {
-          console.log(data.recipes);
-          setFilteredRecipe(data.results);
+          if (data.recipes) {
+            setFullArray(data.recipes);
+          } else {
+            setFullArray(data.results);
+          }
         });
       });
     }

@@ -68,7 +68,7 @@ const Wrapper = styled.div`
   border-top: 2px solid var(--primary-border-color);
   height: 0px;
   overflow: hidden;
-  background: var(--primary-bg-color);
+  background: var(--light-bg-color);
   transition: 0.5s ease-in-out;
 `;
 const RecipeWrapper = styled.div`

@@ -15,6 +15,8 @@ const CookBookModal = ({
   );
 
   const handleChoice = (ev) => {
+    const createPostDiv = document.getElementById("createPostId");
+    createPostDiv.style.height = "450px";
     const allChoices = document.getElementsByClassName("recipeChoices");
     for (let i = 0; i < allChoices.length; i++) {
       allChoices[i].style.background = "white";
