@@ -15,7 +15,9 @@ const Recipe = () => {
     currency: "USD",
   });
 
-  const { loggedInUser } = useContext(LoggedInUserContext);
+  const { loggedInUser, updatingUser, setUpdatingUser } = useContext(
+    LoggedInUserContext
+  );
 
   const { recipeId } = useParams();
 
@@ -89,6 +91,7 @@ const Recipe = () => {
       res.json().then((data) => {
         if (data.status === 202) {
           setOwnsThisRecipe(true);
+          setUpdatingUser(!updatingUser);
         }
       });
     });
@@ -147,9 +150,10 @@ const Recipe = () => {
                 Ingredients
                 <SubText>check off what you have</SubText>
                 <IngredientsItemsList>
-                  {fullRecipe.extendedIngredients.map((ing) => {
+                  {fullRecipe.extendedIngredients.map((ing, index) => {
                     return (
                       <IngredientButton
+                        key={index}
                         name={ing.name}
                         image={ing.image}
                         text={ing.originalString}
@@ -294,8 +298,8 @@ const StepsWrapper = styled.div`
 const StepNumber = styled.div`
   font-size: 30px;
   position: absolute;
-  left: -20px;
-  top: -5px;
+  left: -35px;
+  top: -2px;
 `;
 const StepsItemList = styled.ul`
   list-style-type: none;

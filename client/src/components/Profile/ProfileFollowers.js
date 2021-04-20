@@ -147,6 +147,7 @@ const BannerWrapper = styled.div`
   border-bottom: 2px solid var(--dark-accent);
   opacity: 0.7;
   width: 100%;
+  height: 95px;
 `;
 
 const Banner = styled.img`

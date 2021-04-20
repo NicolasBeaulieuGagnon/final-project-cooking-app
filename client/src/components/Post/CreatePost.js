@@ -29,12 +29,24 @@ const CreatePost = ({ setCreatedPost, createdPost, user }) => {
     }
   }, [userPickedRecipe]);
 
+  useEffect(() => {
+    const createPostDiv = document.getElementById("createPostId");
+
+    setTimeout(() => {
+      createPostDiv.style.height = "450px";
+      setTimeout(() => {
+        createPostDiv.style.height = "340px";
+      }, 200);
+    }, 700);
+  }, []);
+
   const handleCharacterCount = (ev) => {
     setCharacterCount(ev.target.value.length);
     setPostValue(ev.target.value);
   };
 
   const handleSubmitPost = () => {
+    handleRemoveMedia();
     const btn = document.getElementById("postButton");
     btn.disabled = true;
     btn.innerText = "Posting...";
@@ -71,7 +83,14 @@ const CreatePost = ({ setCreatedPost, createdPost, user }) => {
             }).then((res) => {
               res.json().then((data) => {
                 if (data.status === 202) {
-                  setCreatedPost(!createdPost);
+                  console.log(data);
+                  if (createdPost.length > 0) {
+                    const array = [...createdPost];
+                    array.unshift(data.data);
+                    setCreatedPost(array);
+                  } else {
+                    setCreatedPost([data.data]);
+                  }
                   document.getElementById("textArea").value = "";
                   setCharacterCount(0);
                 }
@@ -96,7 +115,13 @@ const CreatePost = ({ setCreatedPost, createdPost, user }) => {
       }).then((res) => {
         res.json().then((data) => {
           if (data.status === 202) {
-            setCreatedPost(!createdPost);
+            if (createdPost.length > 0) {
+              const array = [...createdPost];
+              array.unshift(data.data);
+              setCreatedPost(array);
+            } else {
+              setCreatedPost([data.data]);
+            }
             document.getElementById("textArea").value = "";
             setCharacterCount(0);
           }
@@ -116,6 +141,8 @@ const CreatePost = ({ setCreatedPost, createdPost, user }) => {
       setMediaChoice("userImported");
       setPostImage({ image, type });
       setUserPickedRecipe("");
+      const createPostDiv = document.getElementById("createPostId");
+      createPostDiv.style.height = "400px";
     }
   };
 
@@ -135,6 +162,8 @@ const CreatePost = ({ setCreatedPost, createdPost, user }) => {
       allChoices[i].style.background = "white";
     }
     document.getElementById("typeSelection").value = "";
+    const createPostDiv = document.getElementById("createPostId");
+    createPostDiv.style.height = "340px";
   };
 
   const handleGetFileType = () => {
@@ -144,7 +173,7 @@ const CreatePost = ({ setCreatedPost, createdPost, user }) => {
   };
 
   return (
-    <Wrapper>
+    <Wrapper id="createPostId">
       <CookBookModal
         userPickedRecipe={userPickedRecipe}
         setUserPickedRecipe={setUserPickedRecipe}
@@ -249,8 +278,11 @@ const Wrapper = styled.div`
   position: relative;
   background: var(--primary-bg-color);
   padding-bottom: 10px;
-  border-bottom: 5px solid var(--dark-accent);
-  box-shadow: 0 5px 10px 1px var(--dark-accent);
+  border-bottom: 2px solid var(--primary-border-color);
+  box-shadow: 0 1px 5px 0.1px var(--slight-box-shadow);
+  height: 0px;
+  overflow: hidden;
+  transition: 0.2s ease-in-out;
 `;
 
 const TextArea = styled.textarea`
@@ -283,7 +315,7 @@ const InputFileButton = styled(MainStyledButton)`
 `;
 
 const AvatarWrapper = styled.div`
-  margin-left: 35px;
+  margin-left: 5%;
   z-index: 10;
   border: 3px solid var(--dark-accent);
   box-shadow: 0 10px 20px 0.1px var(--btn-bg-color);
@@ -298,8 +330,8 @@ const AvatarWrapper = styled.div`
 `;
 
 const UserAvatar = styled.img`
-  height: 100%;
-  width: auto;
+  height: auto;
+  width: 100%;
 `;
 
 const UserWrapper = styled.div`
@@ -321,9 +353,9 @@ const UploadedImage = styled.input`
 
 const CharacterCount = styled.div`
   position: absolute;
-  right: 20%;
+  left: 6%;
   margin-right: 65px;
-  top: 273px;
+  top: 269px;
   background: transparent;
   color: ${(props) => {
     return props.count >= 250

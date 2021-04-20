@@ -9,10 +9,15 @@ import FollowButton from "../Button/FollowButton/FollowButton";
 
 const ActionBar = ({ numLikes, likedBy, postId, arrayOfIds, authorId }) => {
   const [isLiked, setIsLiked] = useState(false);
+  const [postLikes, setPostLikes] = useState(0);
   const [isFollowed, setIsFollowed] = useState(false);
   const { loggedInUser, updatingUser, setUpdatingUser } = useContext(
     LoggedInUserContext
   );
+
+  useEffect(() => {
+    setPostLikes(numLikes);
+  }, []);
 
   useEffect(() => {
     if (loggedInUser._id) {
@@ -56,6 +61,7 @@ const ActionBar = ({ numLikes, likedBy, postId, arrayOfIds, authorId }) => {
       }).then((res) =>
         res.json().then((data) => {
           console.log(data.message);
+          setPostLikes(postLikes + 1);
         })
       );
     } else if (isLiked === true) {
@@ -77,6 +83,7 @@ const ActionBar = ({ numLikes, likedBy, postId, arrayOfIds, authorId }) => {
       }).then((res) =>
         res.json().then((data) => {
           console.log(data.message);
+          setPostLikes(postLikes - 1);
         })
       );
     }
@@ -133,6 +140,7 @@ const ActionBar = ({ numLikes, likedBy, postId, arrayOfIds, authorId }) => {
   return (
     <>
       <Wrapper>
+        {postLikes}
         <LikeButton onClick={handleLike} isLiked={isLiked} />
         {loggedInUser?.hasCookBook ? (
           <>

@@ -33,6 +33,7 @@ const Footer = () => {
           www.flaticon.com
         </a> */}
       </div>
+      {/* <a href="https://www.vecteezy.com/free-vector/kitchen-tools">Kitchen Tools Vectors by Vecteezy</a> */}
     </>
   );
 };

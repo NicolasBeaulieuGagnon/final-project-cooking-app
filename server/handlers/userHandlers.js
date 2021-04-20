@@ -42,6 +42,7 @@ const createNewUser = async (req, res) => {
       joined,
       bio,
       followedBy: [],
+      followingById: [],
       numOfFollowers: 0,
       numOfLikes: 0,
       hasCookBook: false,

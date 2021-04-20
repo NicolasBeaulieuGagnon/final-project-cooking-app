@@ -117,6 +117,7 @@ const Profile = () => {
       });
     });
   };
+
   return (
     <>
       <NewAvatarModal
@@ -132,21 +133,24 @@ const Profile = () => {
         />
         {userId === ":userId" ? (
           userInfo.bannerSrc === "" ? (
-            <AddBannerButton onClick={ClickUploadInput}>
-              <HiOutlinePlusCircle size="70" />
-            </AddBannerButton>
+            <>
+              <AddBannerButton onClick={ClickUploadInput}>
+                <HiOutlinePlusCircle size="70" />
+              </AddBannerButton>
+              <ReplaceBanner id="replaceBanner"></ReplaceBanner>
+            </>
           ) : (
             <>
               <EditBannerButton onClick={ClickUploadInput}>
                 <HiOutlinePlusCircle size="40" />
               </EditBannerButton>
-              <ImageBannerWrapper>
+              <ImageBannerWrapper id="replaceBanner">
                 <Banner src={userInfo.bannerSrc} />
               </ImageBannerWrapper>
             </>
           )
         ) : userInfo.bannerSrc === "" ? (
-          <ReplaceBanner></ReplaceBanner>
+          <ReplaceBanner id="replaceBanner"></ReplaceBanner>
         ) : (
           <ImageBannerWrapper>
             <Banner src={userInfo.bannerSrc} />
@@ -378,7 +382,7 @@ const AvatarWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: transparent;
+  background-color: var(--dropDown-bg-color);
 `;
 const Avatar = styled.img`
   height: auto;

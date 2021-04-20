@@ -13,7 +13,6 @@ import aboutIcon from "../../assets/designIcons/016-menu.png";
 import cookbookIcon from "../../assets/designIcons/cookbook.png";
 
 import DropDownItem from "./DropDownItem";
-import NotStyledButton from "../Button/NoStyledButton";
 
 const DropDown = ({ openCloseDropDown, setOpenCloseDropDown }) => {
   const closeDropDown = () => {
@@ -65,7 +64,7 @@ const DropDown = ({ openCloseDropDown, setOpenCloseDropDown }) => {
           onClick={closeDropDown}
           title="CookBook"
           icon={cookbookIcon}
-          link="/cookbook/:cookbookId"
+          link={`/cookbook/${loggedInUser.cookBook}`}
           check="cookbook"
         />
 

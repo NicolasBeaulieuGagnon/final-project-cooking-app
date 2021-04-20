@@ -60,10 +60,13 @@ const Questions = () => {
     ]);
   }, [retry, questionsArray]);
 
-  const handleFetchRecipe = () => {
+  const handleFetchRecipe = (ev) => {
     if (sessionStorage.length > 0) {
+      const button = document.getElementById(ev.target.id);
+      button.innerText = "Loading...";
+      button.disabled = true;
       const qstWrapper = document.getElementById("questionWrapper");
-      qstWrapper.style.height = "0px";
+      qstWrapper.style.height = "1px";
       let filterOne = {};
       let filterTwo = {};
       filterOne[sessionStorage.key(0)] = sessionStorage.getItem(
@@ -83,9 +86,11 @@ const Questions = () => {
       sessionStorage.clear();
       setTimeout(() => {
         if (isCollapsed === 0) {
+          button.innerText = "Submit";
+          button.disabled = false;
           handleCollapse();
         }
-      }, 800);
+      }, 1500);
     }
   };
 
@@ -254,6 +259,6 @@ const Wrapper = styled.div`
   font-size: 15px;
   font-weight: bold;
   background: var(--primary-bg-color);
-  padding: 20px 10px;
+  padding: 30px 10px;
 `;
 export default Questions;
