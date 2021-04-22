@@ -11,6 +11,7 @@ const {
 } = require("./handlers/userHandlers");
 
 const {
+  addComment,
   createPost,
   changePost,
   editPost,
@@ -66,6 +67,8 @@ express()
   .post("/posts/post", createPost)
   // PATCH end point for changes regarding un/like and un/follow
   .patch("/postInteraction", changePost)
+  // PATCH add a comment to a post
+  .patch("/posts/comment/create", addComment)
   // PATCH edit post posted by user
   .patch("/posts/post/:postId", editPost)
   // DELETE remove post posted by user

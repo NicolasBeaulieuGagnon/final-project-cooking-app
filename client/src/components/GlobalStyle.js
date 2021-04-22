@@ -8,7 +8,7 @@ export const GlobalStyle = createGlobalStyle`
     --dropDown-bg-color : rgb(209, 209, 209);                 
     --questions-bg-color: rgb(255, 236, 209);
     --primary-bg-color: rgb(240, 240, 245);
-    --nav-bg-color: rgb(101, 140, 163);
+    --nav-bg-color: rgb(37, 64, 82);
     --nav-height : 10vh;
     --btn-bg-color : rgb(168, 168, 168);
     --dark-accent : rgb(39, 38, 67);

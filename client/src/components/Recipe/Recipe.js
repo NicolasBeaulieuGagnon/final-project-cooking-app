@@ -206,7 +206,7 @@ const Title = styled.h1`
 
 const AddCookBookBtn = styled(MainStyledButton)`
   bottom: 5px;
-  right: 5px;
+  right: 10px;
 `;
 const OwnedRecipe = styled.div`
   cursor: default;

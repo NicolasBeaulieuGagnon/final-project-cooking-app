@@ -37,9 +37,7 @@ const createPost = async (req, res) => {
         cookBook: user.cookBook,
       },
       numLikes: 0,
-      likedBy: [],
       comments: [],
-      followedBy: [],
       edited: false,
     };
 
@@ -94,101 +92,87 @@ const editPost = async (req, res) => {
   console.log("disconnect");
 };
 
+const addComment = async (req, res) => {
+  const client = await MongoClient(MONGO_URI, options);
+  const { postId, comment, author } = req.body;
+  await client.connect();
+  console.log("connected");
+  const db = client.db("recipe-app");
+
+  try {
+    const created = new Date().toISOString();
+    const newComment = {
+      author,
+      created,
+      comment,
+    };
+    const query = { _id: postId };
+    const newValue = { $addToSet: { comments: newComment } };
+    await db.collection("newsFeed").updateOne(query, newValue);
+
+    res
+      .status(202)
+      .json({ status: 202, data: newComment, message: "created new comment" });
+  } catch (err) {
+    res.status(400).json({
+      status: 400,
+      data: `postId -- ${postId}, comment -- ${comment}, author -- ${author} `,
+      message: err.message,
+    });
+  }
+
+  client.close();
+  console.log("disconnected");
+};
 const changePost = async (req, res) => {
   const client = await MongoClient(MONGO_URI, options);
   await client.connect();
   const db = client.db("recipe-app");
   console.log("connected");
-  const {
-    reason,
-    userId,
-    postId,
-    numberAmount,
-    arrayOfIds,
-    authorId,
-  } = req.body;
+  const { reason, userId, postId, numberAmount, authorId } = req.body;
   try {
-    let arrayChanges;
-    let numberChanges;
-    let targetCollection;
-    let query;
+    const authorInfo = await db.collection("users").findOne({ _id: authorId });
+    let authorQuery = { _id: authorId };
+    let userQuery = { _id: userId };
+    let postQuery = { _id: postId };
+    let authorChanges;
+    let userChanges;
+    let postChanges;
 
-    const postAuthor = await db.collection("users").findOne({ _id: authorId });
-    const userQuery = { _id: userId };
     switch (reason) {
       case "like":
-        targetCollection = "newsFeed";
-        query = { _id: postId };
+        postChanges = { $set: { numLikes: numberAmount + 1 } };
+        authorChanges = { $set: { numOfLikes: authorInfo.numOfLikes + 1 } };
+        userChanges = { $addToSet: { postsLiked: postId } };
 
-        arrayChanges = { $addToSet: { likedBy: userId } };
-        numberChanges = { $set: { numLikes: numberAmount + 1 } };
-        const changedAuthorValue = {
-          $set: { numOfLikes: postAuthor.numOfLikes + 1 },
-        };
-        const authorQuery = { _id: authorId };
-        await db.collection("users").updateOne(authorQuery, changedAuthorValue);
+        await db.collection("newsFeed").updateOne(postQuery, postChanges);
         break;
 
       case "unlike":
-        const newArrayOfIds = arrayOfIds.filter((id) => {
-          return id !== userId;
-        });
+        postChanges = { $set: { numLikes: numberAmount - 1 } };
+        authorChanges = { $set: { numOfLikes: authorInfo.numOfLikes - 1 } };
+        userChanges = { $pull: { postsLiked: postId } };
 
-        targetCollection = "newsFeed";
-        query = { _id: postId };
-
-        arrayChanges = { $set: { likedBy: newArrayOfIds } };
-        numberChanges = { $set: { numLikes: numberAmount - 1 } };
-
+        await db.collection("newsFeed").updateOne(postQuery, postChanges);
         break;
 
       case "follow":
-        targetCollection = "users";
-        query = { _id: authorId };
-        authorFollowAmount = postAuthor.numOfFollowers;
-        arrayChanges = { $addToSet: { followedBy: userId } };
-        numberChanges = { $set: { numOfFollowers: authorFollowAmount + 1 } };
-
-        // adding the author's Id the the followingById array in the user
-
-        const newArrayOfFollowingById = {
-          $addToSet: { followingById: authorId },
+        authorChanges = {
+          $set: { numOfFollowers: authorInfo.numOfFollowers + 1 },
         };
-
-        await db
-          .collection("users")
-          .updateOne(userQuery, newArrayOfFollowingById);
-
+        userChanges = { $addToSet: { followingById: authorId } };
         break;
 
       case "unfollow":
-        const newArrayOfFollowIds = postAuthor.followedBy.filter((id) => {
-          return id !== userId;
-        });
-        targetCollection = "users";
-        query = { _id: authorId };
-        authorFollowAmount = postAuthor.numOfFollowers;
-        arrayChanges = { $set: { followedBy: newArrayOfFollowIds } };
-        numberChanges = { $set: { numOfFollowers: authorFollowAmount - 1 } };
-
-        const newFilteredArray = arrayOfIds.filter((id) => {
-          return id !== authorId;
-        });
-        const filteredArrayOfFollowingById = {
-          $set: { followingById: newFilteredArray },
+        authorChanges = {
+          $set: { numOfFollowers: authorInfo.numOfFollowers - 1 },
         };
-
-        await db
-          .collection("users")
-          .updateOne(userQuery, filteredArrayOfFollowingById);
-
+        userChanges = { $pull: { followingById: authorId } };
         break;
     }
 
-    const newArrayValue = arrayChanges;
-    const newNumberValue = numberChanges;
-    await db.collection(targetCollection).updateOne(query, newArrayValue);
-    await db.collection(targetCollection).updateOne(query, newNumberValue);
+    await db.collection("users").updateOne(authorQuery, authorChanges);
+    await db.collection("users").updateOne(userQuery, userChanges);
 
     res
       .status(200)
@@ -321,6 +305,7 @@ const getPostsByUserId = async (req, res) => {
 };
 
 module.exports = {
+  addComment,
   createPost,
   editPost,
   changePost,

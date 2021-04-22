@@ -6,9 +6,7 @@ import { Link } from "react-router-dom";
 import { LoggedInUserContext } from "../Providers/LoggedInUserProvider";
 import NotStyledButton from "../Button/NoStyledButton";
 import MainStyledButton from "../Button/MainStyledButton";
-import closeBook from "../../assets/closeBook.png";
-import openBook from "../../assets/openBook.png";
-import chefHatLogo from "../../assets/designIcons/004-chef.png";
+import chefHatLogo from "../../assets/designIcons/whiteLogo.png";
 import DropDown from "./DropDown";
 
 const NavBar = () => {
@@ -79,7 +77,7 @@ const NavBar = () => {
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  color: black;
+  color: white;
 `;
 const NavBarWrapper = styled.div`
   border-bottom: 2px solid var(--dark-accent);
@@ -96,7 +94,9 @@ const DropDownWrapper = styled.div`
 `;
 
 const LoginButton = styled(MainStyledButton)`
+  border: none;
   position: absolute;
+  background: white;
   top: 50%;
   right: 10px;
 
@@ -106,7 +106,10 @@ const LoginButton = styled(MainStyledButton)`
 `;
 const LoggedInUserName = styled.span`
   font-weight: bold;
-  font-size: 18px;
+  color: white;
+  font-size: 20px;
+
+  text-shadow: 0 0 10px black;
   background: transparent;
   position: absolute;
   left: 50%;

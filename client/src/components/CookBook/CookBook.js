@@ -21,7 +21,6 @@ const CookBook = () => {
       });
     }
   }, [cookbookId]);
-  console.log(cookBook);
 
   return (
     <Wrapper>

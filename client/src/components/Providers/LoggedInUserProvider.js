@@ -6,7 +6,7 @@ export const LoggedInUserProvider = ({ children }) => {
   const [loggedInUser, setLoggedInUser] = useState({});
   const [updatingUser, setUpdatingUser] = useState(true);
   const [loggedInUserCookBook, setLoggedInUserCookBook] = useState({});
-  console.log(loggedInUserCookBook);
+  console.log(loggedInUser);
   useEffect(() => {
     if (localStorage.getItem("logged in") === "true") {
       fetch(`/users/user/${localStorage.getItem("userId")}`).then((res) => {

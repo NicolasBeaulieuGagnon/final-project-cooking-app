@@ -5,11 +5,22 @@ import ActionBar from "./ActionBar";
 import AuthorPostInfo from "./AuthorPostInfo";
 import { LoggedInUserContext } from "../Providers/LoggedInUserProvider";
 import MainStyledButton from "../Button/MainStyledButton";
+import CreateComment from "./CreateComment";
+import { Link } from "react-router-dom";
 
 const Post = ({ givenPost, index }) => {
   const [isEditing, setIsEditing] = useState();
+  const [openCommentSection, setOpenCommentSection] = useState(false);
+  const [commentsArray, setCommentsArray] = useState([]);
+
   const { loggedInUser } = useContext(LoggedInUserContext);
   const { author, edited, post, postImage, posted, _id } = givenPost;
+
+  useEffect(() => {
+    if (givenPost.comments) {
+      setCommentsArray(givenPost.comments);
+    }
+  }, []);
 
   useEffect(() => {
     const postEntrance = document.getElementById(_id);
@@ -29,7 +40,9 @@ const Post = ({ givenPost, index }) => {
 
   return (
     <Wrapper key={_id} id={_id}>
-      <AuthorPostInfo author={author} posted={posted} />
+      <StyledLink to={`/post/${givenPost._id}`}>
+        <AuthorPostInfo author={author} posted={posted} />
+      </StyledLink>
       {edited && <Edited>edited post</Edited>}
       <Border />
       {isEditing ? (
@@ -42,22 +55,45 @@ const Post = ({ givenPost, index }) => {
         <PostMessage> {post} </PostMessage>
       )}
 
-      {postImage === "" ? <div></div> : <PostImg src={postImage} />}
-
-      <ActionBar
-        authorId={givenPost.author.authorId}
-        arrayOfIds={givenPost.likedBy}
-        postId={givenPost._id}
-        numFollows={givenPost.numFollows}
-        numLikes={givenPost.numLikes}
-        likedBy={givenPost.likedBy}
-      />
+      <ActionBarWrapper>
+        {postImage === "" ? <div></div> : <PostImg src={postImage} />}
+        {localStorage.getItem("logged in") === "true" && (
+          <ActionBar
+            authorId={givenPost.author.authorId}
+            arrayOfIds={givenPost.likedBy}
+            postId={givenPost._id}
+            numFollows={givenPost.numFollows}
+            numLikes={givenPost.numLikes}
+            likedBy={givenPost.likedBy}
+            comments={givenPost.comments}
+            openCommentSection={openCommentSection}
+            setOpenCommentSection={setOpenCommentSection}
+          />
+        )}
+      </ActionBarWrapper>
       {author.authorId === loggedInUser._id && (
         <EditPostButton onClick={handleEdit}>Edit </EditPostButton>
+      )}
+      {openCommentSection && (
+        <CreateComment
+          commentsArray={commentsArray}
+          setCommentsArray={setCommentsArray}
+          loggedInUser={loggedInUser}
+          postId={givenPost._id}
+        />
       )}
     </Wrapper>
   );
 };
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+`;
+const ActionBarWrapper = styled.div`
+  display: flex;
+  background: transparent;
+`;
 
 const EditingPostMessage = styled.textarea`
   border-radius: 5px;

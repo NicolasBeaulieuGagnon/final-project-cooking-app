@@ -13,8 +13,6 @@ const CreatePost = ({ setCreatedPost, createdPost, user }) => {
   const [userPickedRecipe, setUserPickedRecipe] = useState("");
   const [mediaChoice, setMediaChoice] = useState("");
 
-  // console.log(user);
-
   useEffect(() => {
     if (characterCount > 250 || characterCount < 3) {
       document.getElementById("postButton").disabled = true;
@@ -83,7 +81,6 @@ const CreatePost = ({ setCreatedPost, createdPost, user }) => {
             }).then((res) => {
               res.json().then((data) => {
                 if (data.status === 202) {
-                  console.log(data);
                   if (createdPost.length > 0) {
                     const array = [...createdPost];
                     array.unshift(data.data);
