@@ -25,7 +25,6 @@ const NewsFeed = () => {
     };
   }, []);
 
-  console.log(createdPost);
   return (
     <Wrapper>
       {localStorage.getItem("logged in") === "true" ? (

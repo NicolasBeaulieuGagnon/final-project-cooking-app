@@ -44,6 +44,7 @@ const createNewUser = async (req, res) => {
       followedBy: [],
       followingById: [],
       numOfFollowers: 0,
+      postsLiked: [],
       numOfLikes: 0,
       hasCookBook: false,
       cookBook: null,

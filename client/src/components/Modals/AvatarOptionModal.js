@@ -4,7 +4,7 @@ import styled from "styled-components";
 import MainStyledButton from "../Button/MainStyledButton";
 import NotStyledButton from "../Button/NoStyledButton";
 
-const AvatarOptionModal = ({ userAvatar, setUserAvatar }) => {
+const AvatarOptionModal = ({ setFileValue, userAvatar, setUserAvatar }) => {
   const [defaultAvatarChoices, setDefaultAvatarChoices] = useState([]);
   useEffect(() => {
     fetch("/avatarChoice").then((res) => {
@@ -14,10 +14,28 @@ const AvatarOptionModal = ({ userAvatar, setUserAvatar }) => {
     });
   }, []);
 
+  useEffect(() => {
+    if (defaultAvatarChoices) {
+      defaultAvatarChoices.forEach((avatar) => {
+        if (avatar === userAvatar) {
+          const avatarChoice = document.getElementById(avatar);
+          avatarChoice.style.background = "gray";
+        } else {
+          const avatarChoice = document.getElementById(avatar);
+          avatarChoice.style.background = "white";
+        }
+      });
+    }
+  }, [userAvatar]);
+
   const handleChoice = (ev) => {
     const userUploadImage = document.getElementById("userUploadImage");
     userUploadImage.value = "";
     setUserAvatar(ev.target.id);
+    setFileValue(null);
+    setTimeout(() => {
+      handleClose();
+    }, 400);
   };
   const handleClose = () => {
     const modal = document.getElementById("avatarModalBg");
@@ -26,20 +44,6 @@ const AvatarOptionModal = ({ userAvatar, setUserAvatar }) => {
       modal.style.opacity = "0";
     }
   };
-  useEffect(() => {
-    const doneButton = document.getElementById("avatarDoneButton");
-
-    if (doneButton) {
-      if (userAvatar) {
-        doneButton.disabled = false;
-        doneButton.style.cursor = "pointer";
-      } else {
-        const doneButton = document.getElementById("avatarDoneButton");
-        doneButton.disabled = true;
-        doneButton.style.cursor = "not-allowed";
-      }
-    }
-  }, [userAvatar]);
 
   return (
     <ModalBgWrapper id="avatarModalBg">
@@ -63,9 +67,6 @@ const AvatarOptionModal = ({ userAvatar, setUserAvatar }) => {
               );
             })}
         </AvatarWrapper>
-        <Button onClick={handleClose} id="avatarDoneButton">
-          Choose
-        </Button>
         <CloseButton onClick={handleClose}>Close</CloseButton>
       </Modal>
     </ModalBgWrapper>
@@ -73,7 +74,10 @@ const AvatarOptionModal = ({ userAvatar, setUserAvatar }) => {
 };
 
 const ModalImage = styled.img`
-  width: 70px;
+  border-radius: 5px;
+  margin: 2px 2px;
+  width: 65px;
+  transition: 0.2 ease-in-out;
 `;
 const HiddenButton = styled(NotStyledButton)`
   font-weight: bold;
@@ -82,7 +86,11 @@ const HiddenButton = styled(NotStyledButton)`
   top: 0px;
   right: 2px;
 `;
-const ChoiceButton = styled(NotStyledButton)``;
+const ChoiceButton = styled(NotStyledButton)`
+  border-radius: 5px;
+  margin: 2px 2px;
+  transition: 0.5s ease-in-out;
+`;
 const Button = styled(MainStyledButton)`
   bottom: 10px;
   right: 20px;

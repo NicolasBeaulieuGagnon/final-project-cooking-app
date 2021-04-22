@@ -6,11 +6,22 @@ import { LoggedInUserContext } from "../Providers/LoggedInUserProvider";
 import LikeButton from "../Button/LikeButton/LikeButton";
 import CommentButton from "../Button/CommentButton/CommentButton";
 import FollowButton from "../Button/FollowButton/FollowButton";
+import { Link } from "react-router-dom";
 
-const ActionBar = ({ numLikes, likedBy, postId, arrayOfIds, authorId }) => {
+const ActionBar = ({
+  openCommentSection,
+  setOpenCommentSection,
+  numLikes,
+  likedBy,
+  postId,
+  authorId,
+  comments,
+}) => {
   const [isLiked, setIsLiked] = useState(false);
   const [postLikes, setPostLikes] = useState(0);
   const [isFollowed, setIsFollowed] = useState(false);
+  const [animate, setAnimate] = useState(false);
+
   const { loggedInUser, updatingUser, setUpdatingUser } = useContext(
     LoggedInUserContext
   );
@@ -21,10 +32,10 @@ const ActionBar = ({ numLikes, likedBy, postId, arrayOfIds, authorId }) => {
 
   useEffect(() => {
     if (loggedInUser._id) {
-      setIsLiked(checkData(loggedInUser._id, likedBy));
+      setIsLiked(checkData(postId, loggedInUser.postsLiked));
       setIsFollowed(checkData(authorId, loggedInUser.followingById));
     }
-  }, [loggedInUser, likedBy]);
+  }, [loggedInUser]);
 
   const checkData = (id, arrayOfIds) => {
     if (arrayOfIds.length > 0) {
@@ -42,37 +53,15 @@ const ActionBar = ({ numLikes, likedBy, postId, arrayOfIds, authorId }) => {
   };
   const handleLike = () => {
     setIsLiked(!isLiked);
-    if (isLiked === false) {
-      const bodyObject = {
-        reason: "like",
-        userId: loggedInUser._id,
-        postId,
-        arrayOfIds,
-        authorId,
-        numberAmount: numLikes,
-      };
-      fetch("/postInteraction", {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...bodyObject }),
-      }).then((res) =>
-        res.json().then((data) => {
-          console.log(data.message);
-          setPostLikes(postLikes + 1);
-        })
-      );
-    } else if (isLiked === true) {
+    if (isLiked) {
       const bodyObject = {
         reason: "unlike",
         userId: loggedInUser._id,
         postId,
-        arrayOfIds,
-        numberAmount: numLikes,
+        arrayOfIds: loggedInUser.postsLiked,
+        authorId,
+        numberAmount: postLikes,
       };
-
       fetch("/postInteraction", {
         method: "PATCH",
         headers: {
@@ -82,8 +71,29 @@ const ActionBar = ({ numLikes, likedBy, postId, arrayOfIds, authorId }) => {
         body: JSON.stringify({ ...bodyObject }),
       }).then((res) =>
         res.json().then((data) => {
-          console.log(data.message);
           setPostLikes(postLikes - 1);
+          setUpdatingUser(!updatingUser);
+        })
+      );
+    } else {
+      const bodyObject = {
+        reason: "like",
+        userId: loggedInUser._id,
+        postId,
+        authorId,
+        numberAmount: postLikes,
+      };
+      fetch("/postInteraction", {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...bodyObject }),
+      }).then((res) =>
+        res.json().then((data) => {
+          setPostLikes(postLikes + 1);
+          setUpdatingUser(!updatingUser);
         })
       );
     }
@@ -91,8 +101,27 @@ const ActionBar = ({ numLikes, likedBy, postId, arrayOfIds, authorId }) => {
 
   const handleFollow = () => {
     setIsFollowed(!isFollowed);
+    if (isFollowed) {
+      const bodyObject = {
+        reason: "unfollow",
+        userId: loggedInUser._id,
+        postId,
+        authorId,
+      };
 
-    if (isFollowed === false) {
+      fetch("/postInteraction", {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...bodyObject }),
+      }).then((res) =>
+        res.json().then(() => {
+          setUpdatingUser(!updatingUser);
+        })
+      );
+    } else {
       const bodyObject = {
         reason: "follow",
         userId: loggedInUser._id,
@@ -112,59 +141,73 @@ const ActionBar = ({ numLikes, likedBy, postId, arrayOfIds, authorId }) => {
           setUpdatingUser(!updatingUser);
         })
       );
-    } else if (isFollowed === true) {
-      const bodyObject = {
-        reason: "unfollow",
-        userId: loggedInUser._id,
-        postId,
-        authorId,
+    }
+  };
 
-        arrayOfIds: loggedInUser.followingById,
-      };
+  const handleOpenComments = () => {
+    setOpenCommentSection(!openCommentSection);
 
-      fetch("/postInteraction", {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...bodyObject }),
-      }).then((res) =>
-        res.json().then(() => {
-          setUpdatingUser(!updatingUser);
-        })
-      );
+    if (!openCommentSection) {
+      setAnimate(!animate);
+      setTimeout(() => {
+        setAnimate(false);
+      }, 1200);
     }
   };
 
   return (
     <>
       <Wrapper>
-        {postLikes}
-        <LikeButton onClick={handleLike} isLiked={isLiked} />
-        {loggedInUser?.hasCookBook ? (
-          <>
-            <FollowButton onClick={handleFollow} isFollowed={isFollowed} />
-          </>
-        ) : (
-          <DisabledFollowButton>
-            <GrBook size="20" />
-          </DisabledFollowButton>
-        )}
-
-        <CommentButton />
+        <Span>
+          <LikeButton onClick={handleLike} isLiked={isLiked} />
+          <NumberDiv id={`likesNumberId-${postId}`}>{postLikes}</NumberDiv>
+        </Span>
+        <Span>
+          <FollowButton onClick={handleFollow} isFollowed={isFollowed} />
+        </Span>
+        <Span>
+          <CommentButton
+            animate={animate}
+            onClick={handleOpenComments}
+            openCommentSection={openCommentSection}
+          />
+          <CommentsNumberDiv id="commentsNumber">
+            <StyledLink to={`/post/${postId}`}>{comments.length}</StyledLink>
+          </CommentsNumberDiv>
+        </Span>
       </Wrapper>
     </>
   );
 };
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+`;
+
+const NumberDiv = styled.div`
+  background: transparent;
+  font-weight: bold;
+  font-size: 19px;
+  margin-top: 10px;
+  transition: 0.2s ease-in-out;
+`;
+
+const CommentsNumberDiv = styled(NumberDiv)`
+  margin-top: 7px;
+`;
+const Span = styled.span`
+  display: flex;
+
+  background: transparent;
+`;
 const Wrapper = styled.div`
   background: transparent;
-  position: absolute;
   right: 10px;
   top: 10px;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
 `;
 
 const DisabledFollowButton = styled.div`

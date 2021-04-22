@@ -42,7 +42,6 @@ const NewAvatarModal = ({ loggedInUser, updatingUser, setUpdatingUser }) => {
           const secretUrl = data.url;
           const file = Pick;
           const image = secretUrl.split("?")[0];
-          console.log(file);
           fetch(secretUrl, {
             method: "PUT",
             headers: {

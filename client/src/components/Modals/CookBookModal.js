@@ -43,9 +43,7 @@ const CookBookModal = ({
       <Modal>
         <HiddenButton onClick={handleClose}>x</HiddenButton>
         <RecipesWrapper>
-          {loggedInUser.hasCookBook &&
-            loggedInUserCookBook.recipes &&
-            loggedInUserCookBook.recipes.length > 0 &&
+          {loggedInUserCookBook?.recipes?.length > 0 &&
             loggedInUserCookBook.recipes.map((recipe) => {
               return (
                 <ChoiceButton
@@ -55,7 +53,9 @@ const CookBookModal = ({
                   onClick={handleChoice}
                 >
                   <RecipeTitle id={recipe.recipeImage}>
-                    {recipe.recipeTitle}
+                    {recipe.recipeTitle.length > 15
+                      ? `${recipe.recipeTitle.slice(0, 23)}...`
+                      : recipe.recipeTitle}
                   </RecipeTitle>
                   <ModalImage
                     id={recipe.recipeImage}
@@ -88,8 +88,15 @@ const HiddenButton = styled(NotStyledButton)`
   right: 2px;
 `;
 const ChoiceButton = styled(NotStyledButton)`
-  border-radius: 5px;
+  box-shadow: 0 0 5px 0.1px var(--slight-box-shadow);
 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 2px;
+  margin: 3px;
+  height: 90px;
   transition: 0.1s ease-in-out;
   &:hover {
     opacity: 0.5;
@@ -97,10 +104,6 @@ const ChoiceButton = styled(NotStyledButton)`
   &:active {
     transform: scale(0.8);
   }
-`;
-const Button = styled(MainStyledButton)`
-  bottom: 10px;
-  right: 20px;
 `;
 const CloseButton = styled(MainStyledButton)`
   bottom: 10px;
@@ -119,8 +122,10 @@ const Modal = styled.div`
   transform: translate(-50%, -50%);
 `;
 const RecipesWrapper = styled.div`
-  width: 350px;
-  height: 300px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 370px;
+  height: 270px;
   overflow-y: scroll;
 `;
 

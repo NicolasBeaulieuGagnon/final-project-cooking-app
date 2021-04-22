@@ -36,7 +36,7 @@ const IngredientItemButton = styled.button`
   outline: none;
   border: none;
   border-radius: 5px;
-  width: 350px;
+  width: 300px;
   margin: 5px 0px;
   transition: 0.1s ease-in-out;
   transform: ${(props) =>

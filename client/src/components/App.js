@@ -9,7 +9,7 @@ import Questions from "./Questions/Questions";
 import Profile from "./Profile/Profile";
 import LoginIn from "./LoginIn";
 import About from "./About";
-import InFridge from "./InFridge";
+import InFridge from "./Fridge/InFridge";
 import { GlobalStyle } from "./GlobalStyle";
 import CookBook from "./CookBook/CookBook";
 import SubmitRecipe from "./CookBook/SubmitRecipe";
@@ -17,7 +17,6 @@ import Recipe from "./Recipe/Recipe";
 import NewsFeed from "./NewsFeed/NewsFeed";
 import PostDetails from "./Post/PostDetails";
 import ErrorPage from "./ErrorPage";
-import Footer from "./Footer";
 
 const App = () => {
   return (
@@ -60,14 +59,13 @@ const App = () => {
             <Route exact path="/createCookBook">
               <CreateCookBook />
             </Route>
-            <Route path="*">
-              <ErrorPage />
-            </Route>
             <Route path="/about">
               <About />
             </Route>
+            <Route path="*">
+              <ErrorPage />
+            </Route>
           </Switch>
-          <Footer />
         </Router>
       </Wrapper>
     </>
