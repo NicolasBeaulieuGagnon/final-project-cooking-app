@@ -4,8 +4,12 @@ import styled from "styled-components";
 import MainStyledButton from "../Button/MainStyledButton";
 import NotStyledButton from "../Button/NoStyledButton";
 
+// AvatarOptionModal when you are creating your account, from the LoginIn.js
+//
 const AvatarOptionModal = ({ setFileValue, userAvatar, setUserAvatar }) => {
   const [defaultAvatarChoices, setDefaultAvatarChoices] = useState([]);
+
+  // fetches all the avatar choices from the s3 bucket where they are stored
   useEffect(() => {
     fetch("/avatarChoice").then((res) => {
       res.json().then((data) => {
@@ -14,6 +18,7 @@ const AvatarOptionModal = ({ setFileValue, userAvatar, setUserAvatar }) => {
     });
   }, []);
 
+  // a useEffect to change the background of the chosen Avatar
   useEffect(() => {
     if (defaultAvatarChoices) {
       defaultAvatarChoices.forEach((avatar) => {
@@ -28,6 +33,8 @@ const AvatarOptionModal = ({ setFileValue, userAvatar, setUserAvatar }) => {
     }
   }, [userAvatar]);
 
+  // when you click on an avatar adds it as your chosen avatar
+  // then calls handleClose to close the modal.
   const handleChoice = (ev) => {
     const userUploadImage = document.getElementById("userUploadImage");
     userUploadImage.value = "";

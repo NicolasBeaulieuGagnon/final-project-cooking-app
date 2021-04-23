@@ -6,6 +6,8 @@ import NotStyledButton from "../NoStyledButton";
 import ScaleIn from "../../Animations/ScaleIn";
 import PoppingCircle from "../../Animations/PoppingCirlce";
 
+// a button that displays a little animation if you like that post.
+
 const LikeButton = ({ onClick, isLiked }) => {
   return isLiked ? (
     <>

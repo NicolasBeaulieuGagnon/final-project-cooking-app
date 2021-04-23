@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import Post from "../Post/Post";
 
+// all of that user's posts out of order and sorted
+// oldest to newest.
 const ProfilePosts = ({ posts }) => {
   return (
     <Wrapper>

@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 import { LoggedInUserContext } from "../Providers/LoggedInUserProvider";
 
@@ -14,11 +13,12 @@ import cookbookIcon from "../../assets/designIcons/cookbook.png";
 
 import DropDownItem from "./DropDownItem";
 
+// the sites drop down used in the NavBar.js
 const DropDown = ({ openCloseDropDown, setOpenCloseDropDown }) => {
   const closeDropDown = () => {
     setOpenCloseDropDown(!openCloseDropDown);
   };
-
+  // sends each to the DropDownItem.js
   const { loggedInUser } = useContext(LoggedInUserContext);
   return (
     <Wrapper id="dropDown">
@@ -82,7 +82,6 @@ const DropDown = ({ openCloseDropDown, setOpenCloseDropDown }) => {
 const Wrapper = styled.div`
   border: 2px solid var(--dark-accent);
   border-top: none;
-  /* margin-left: 10px; */
   font-size: 25px;
   font-weight: bold;
   background: var(--dropDown-bg-color);

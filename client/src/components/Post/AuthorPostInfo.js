@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
+// each post's author info
+// created mainly to make the Post.js file easier to digest.
 const AuthorPostInfo = ({ author, posted }) => {
   return (
     <Wrapper>

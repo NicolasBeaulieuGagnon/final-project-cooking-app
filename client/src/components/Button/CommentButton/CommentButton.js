@@ -6,7 +6,8 @@ import PoppingCircle from "../../Animations/PoppingCirlce";
 import LiftUp from "../../Animations/LiftUp";
 import NotStyledButton from "../NoStyledButton";
 
-const CommentButton = ({ postId, animate, openCommentSection, onClick }) => {
+// a button with a little animation that opens the post's comment section.
+const CommentButton = ({ animate, openCommentSection, onClick }) => {
   return animate ? (
     <Wrapper open={openCommentSection} onClick={onClick}>
       <PoppingCircle size="25" color="rgb(0, 183, 255)" />

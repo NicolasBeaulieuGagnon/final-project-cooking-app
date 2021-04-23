@@ -1,19 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
 import MainStyledButton from "../Button/MainStyledButton";
 import NotStyledButton from "../Button/NoStyledButton";
 import { LoggedInUserContext } from "../Providers/LoggedInUserProvider";
 
-const CookBookModal = ({
-  userPickedRecipe,
-  setUserPickedRecipe,
-  setMediaChoice,
-}) => {
-  const { loggedInUserCookBook, loggedInUser } = useContext(
-    LoggedInUserContext
-  );
+// Modal that shows up when you are posting a post. looks throught the loggedInUserCookBook
+// and displays all the saved recipes.
+// used in the CreatePost.js
+const CookBookModal = ({ setUserPickedRecipe, setMediaChoice }) => {
+  const { loggedInUserCookBook } = useContext(LoggedInUserContext);
 
+  // once an image is clicked displays the recipe image under the text area
+  // and closes the modal with the handleClose function.
   const handleChoice = (ev) => {
     const createPostDiv = document.getElementById("createPostId");
     createPostDiv.style.height = "450px";

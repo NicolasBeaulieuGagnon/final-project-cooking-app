@@ -5,6 +5,10 @@ import { useParams } from "react-router-dom";
 import { IngredientButton } from "../Button/IngredientButton";
 import { LoggedInUserContext } from "../Providers/LoggedInUserProvider";
 import MainStyledButton from "../Button/MainStyledButton";
+import ShareRecipeAddModal from "../Modals/ShareRecipeAddModal";
+import NotStyledButton from "../Button/NoStyledButton";
+import { RiDoorClosedFill, RiShareLine } from "react-icons/ri";
+import ScaleIn from "../Animations/ScaleIn";
 
 const Recipe = () => {
   const [fullRecipe, setFullRecipe] = useState(null);
@@ -15,9 +19,12 @@ const Recipe = () => {
     currency: "USD",
   });
 
-  const { loggedInUser, updatingUser, setUpdatingUser } = useContext(
-    LoggedInUserContext
-  );
+  const {
+    loggedInUser,
+    updatingUser,
+    setUpdatingUser,
+    loggedInUserCookBook,
+  } = useContext(LoggedInUserContext);
 
   const { recipeId } = useParams();
 
@@ -96,6 +103,13 @@ const Recipe = () => {
       });
     });
   };
+
+  const handleShareModule = () => {
+    const shareModal = document.getElementById("shareRecipeModalBg");
+    shareModal.style.opacity = "1";
+    shareModal.style.visibility = "visible";
+  };
+
   return (
     <>
       {fullRecipe && (
@@ -106,6 +120,11 @@ const Recipe = () => {
             backgroundRepeat: `no-repeat`,
           }}
         >
+          <ShareRecipeAddModal
+            loggedInUserCookBook={loggedInUserCookBook}
+            recipe={fullRecipe}
+            loggedInUser={loggedInUser}
+          />
           <RecipeWrapper>
             <Title>{fullRecipe.title}</Title>
 
@@ -128,7 +147,14 @@ const Recipe = () => {
                 </DetailedInfo>
                 {loggedInUser.hasCookBook ? (
                   ownsThisRecipe ? (
-                    <OwnedRecipe>In Cookbook</OwnedRecipe>
+                    <>
+                      <ShareModulButton onClick={handleShareModule}>
+                        <ScaleIn>
+                          <RiShareLine size="30px" />
+                        </ScaleIn>
+                      </ShareModulButton>
+                      <OwnedRecipe>In Cookbook</OwnedRecipe>
+                    </>
                   ) : (
                     <AddCookBookBtn
                       id="addToCookBookButton"
@@ -192,6 +218,20 @@ const Recipe = () => {
     </>
   );
 };
+
+const ShareModulButton = styled(NotStyledButton)`
+  position: absolute;
+  bottom: -2px;
+  right: 146px;
+  border-radius: 50px;
+  transition: 0.1s ease-in-out;
+  &:hover {
+    color: green;
+  }
+  &:active {
+    transform: scale(0.6);
+  }
+`;
 const NoInstructionsDiv = styled.div``;
 const Title = styled.h1`
   text-shadow: 2px -2px 5px white;
@@ -202,6 +242,7 @@ const Title = styled.h1`
   padding-left: 10px;
   border-bottom: 4px solid var(--dark-accent);
   box-shadow: 0 2px 9px 0.1px var(--dark-accent);
+  backdrop-filter: blur(3px);
 `;
 
 const AddCookBookBtn = styled(MainStyledButton)`

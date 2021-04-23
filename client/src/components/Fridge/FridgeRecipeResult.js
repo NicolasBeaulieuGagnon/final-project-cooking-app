@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import Loading from "../Animations/Loading";
-import MissedIngredients from "./MissedIngredients";
-import { UsedIngredients } from "./UsedIngredients";
 import { VscLoading } from "react-icons/vsc";
 import NotStyledButton from "../Button/NoStyledButton";
 
+// displays the 3 given recipes that we get back from what the user got
+//when they inputed the things from their fridge.
 const FridgeRecipeResult = ({ onClick, recipeResults }) => {
   return (
     <Wrapper>
@@ -27,20 +27,24 @@ const FridgeRecipeResult = ({ onClick, recipeResults }) => {
               <InfoWrapper>
                 {result.usedIngredients.length > 0 && (
                   <InfoTitle>
-                    Used Ingredients :
+                    Ingredients in your fridge:
                     <Info>
                       {result.usedIngredients.map((usedIng) => {
-                        return <UsedIngredients ingredient={usedIng} />;
+                        return (
+                          <IngredientDetail>{usedIng.name}</IngredientDetail>
+                        );
                       })}
                     </Info>
                   </InfoTitle>
                 )}
                 {result.missedIngredients.length > 0 && (
                   <InfoTitle>
-                    Missed Ingredients :
+                    Not in your fridge:
                     <Info>
                       {result.missedIngredients.map((missedIng) => {
-                        return <MissedIngredients ingredient={missedIng} />;
+                        return (
+                          <IngredientDetail>{missedIng.name}</IngredientDetail>
+                        );
                       })}
                     </Info>
                   </InfoTitle>
@@ -60,6 +64,7 @@ const FridgeRecipeResult = ({ onClick, recipeResults }) => {
   );
 };
 
+const IngredientDetail = styled.div``;
 const CloseResultButton = styled(NotStyledButton)`
   font-weight: bold;
   font-size: 21px;

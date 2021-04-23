@@ -1,6 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
 export const RecipeContext = createContext(null);
 
+// provider for the random questions result from Questions.js checks all the filters given depending on the question
+// and calls the Spoonacular Api with that costum end point
+// works very similarly to the FridgeRecipeResult.js
 export const RecipeProvider = ({ children }) => {
   const [isGettingRecipe, setIsGettingRecipe] = useState(true);
   const [filteredRecipe, setFilteredRecipe] = useState([]);

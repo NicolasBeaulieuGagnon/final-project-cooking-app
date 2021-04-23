@@ -8,6 +8,8 @@ import CookBookRecipeCard from "./CookBookRecipeCard";
 import cookBookIcon from "../../assets/designIcons/cookbook.png";
 import toolsBannerBg from "../../assets/designIcons/toolsBanner.jpg";
 
+// shows the cookbook by the coobook's id.
+// displays all the recipes in that user's cookbook.
 const CookBook = () => {
   const [cookBook, setCookBook] = useState({});
   const { cookbookId } = useParams();

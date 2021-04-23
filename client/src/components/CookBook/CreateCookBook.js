@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import MainStyledButton from "../Button/MainStyledButton";
 
-import closeBook from "../../assets/closeBook.png";
+import closeBook from "../../assets/designIcons/cookbook.png";
 import { LoggedInUserContext } from "../Providers/LoggedInUserProvider";
 import NotStyledButton from "../Button/NoStyledButton";
 import { useHistory } from "react-router";
@@ -16,6 +16,7 @@ const CreateCookBook = () => {
   const [createdCookBook, setCreatedCookBook] = useState(null);
   const history = useHistory();
 
+  // checks that we received the created book and if so, shows it to the user.
   useEffect(() => {
     if (createdCookBook) {
       const createdTitle = document.getElementById("TitleOnCookBook");
@@ -23,6 +24,9 @@ const CreateCookBook = () => {
     }
   }, [createdCookBook]);
 
+  // checks to see if the cookbook is done being created and sends it to the back end.
+  // updates the user's data so no page refresh is necesarry.
+  // once we know the book is created we show it to the FE.
   useEffect(() => {
     if (creating) {
       setCreating(false);
@@ -48,6 +52,9 @@ const CreateCookBook = () => {
     }
   }, [creating]);
 
+  // once the create button is pressed this function will change it's text and disable it.
+  // it will then check if the user inputed a book name, if not than it'll get that user's handle
+  // and set the books name to that than set creating to true to show the finished cookbook.
   const handleCreateCookBook = (ev) => {
     ev.target.innerText = "Loading...";
     ev.target.disabled = true;
@@ -70,6 +77,7 @@ const CreateCookBook = () => {
     setCreating(true);
   };
 
+  //button that is the user's cookbook when clicked on pushes to that newly created cookbook's page.
   const handleComplete = () => {
     history.push(`/cookbook/${createdCookBook._id}`);
   };
@@ -81,7 +89,7 @@ const CreateCookBook = () => {
           <CreatedBookWrapper>
             <CreationImage src={closeBook} />
             <CreatedBookTitle id="TitleOnCookBook">
-              Like a Sturgeon's CookBook
+              {createdCookBook?.cookBookName}
             </CreatedBookTitle>
             <Button onClick={handleComplete}></Button>
           </CreatedBookWrapper>
@@ -116,6 +124,12 @@ const CreateCookBook = () => {
 };
 
 const CreationImage = styled.img`
+  margin-top: 50px;
+  margin-left: 38px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  width: 300px;
   background: transparent;
 `;
 const CreationMessage = styled.div`
@@ -128,22 +142,21 @@ const CreatedBookWrapper = styled.div`
 const Button = styled(NotStyledButton)`
   top: 60px;
   left: 50%;
-  width: 239px;
-  height: 314.5px;
+  width: 200px;
+  height: 240px;
   transform: translate(-50%);
   position: absolute;
   transition: 0.2s ease-in-out;
 `;
 
 const CreatedBookTitle = styled.div`
-  top: 60px;
-  left: 51%;
-  width: 270px;
-  height: 300px;
+  top: 90px;
+  left: 50%;
+  width: 180px;
+  height: 200px;
   transform: translate(-50%);
   position: absolute;
-  background: transparent;
-  color: var(--primary-bg-color);
+  color: black;
 `;
 const CreationCompleteDiv = styled.div`
   text-align: center;
