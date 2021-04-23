@@ -2,7 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import NotStyledButton from "../Button/NoStyledButton";
 
+// displays each error that the user created while creating an account.
 const ErrorModal = ({ errors, setErrors, error, index }) => {
+  // removes that error from the error array
   const handleClose = () => {
     let minusError = errors.filter((err) => {
       return err.error !== error;
@@ -10,6 +12,8 @@ const ErrorModal = ({ errors, setErrors, error, index }) => {
     setErrors(minusError);
   };
 
+  // does a little height difference depending on the index of the error so they
+  // look like they are a little bit stacked over each other.
   return (
     <Modal key={index} height={`${index * 65}px`} id={`error-${error}`}>
       <CloseModal onClick={handleClose}>x</CloseModal>

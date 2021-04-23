@@ -5,7 +5,6 @@ import MainStyledButton from "../Button/MainStyledButton";
 import fridgeIcon from "../../assets/designIcons/012-fridge.png";
 import FridgeRecipeResult from "./FridgeRecipeResult";
 import Ingredient from "./Ingredient";
-import NotStyledButton from "../Button/NoStyledButton";
 
 const InFridge = () => {
   const [ingredientsArray, setIngredientsArray] = useState([]);
@@ -13,6 +12,10 @@ const InFridge = () => {
   const [notFilteredRecipes, setNotFilteredRecipes] = useState([]);
   const [rankingChoice, setRankingChoice] = useState(0);
   const [retryRandom, setRetryRandom] = useState(false);
+
+  // calls our function to get 3 random numbers, if they aren't restarts.
+  // if they are all different it then looks at the array of notFilteredRecipes
+  // and grabs 3 recipes with the random numbers found by us.
 
   useEffect(() => {
     if (notFilteredRecipes?.length > 3) {
@@ -29,6 +32,9 @@ const InFridge = () => {
       setRecipeResults(notFilteredRecipes);
     }
   }, [retryRandom, notFilteredRecipes]);
+
+  // checks to see that their is at least 1 ingredient in the ingredientsArray before
+  // letting you try to search.
   useEffect(() => {
     const searchButton = document.getElementById("searchFridgeButton");
 
@@ -39,11 +45,14 @@ const InFridge = () => {
     }
   }, [ingredientsArray]);
 
+  // Empties the setIngredientsArray incase it isn't for some reason
+  // and auto focuses the cursor to the text input field.
   useEffect(() => {
     document.getElementById("textInputId").focus();
     setIngredientsArray([]);
   }, []);
 
+  // gets 3 random numbers and only returns them if they are all different, if not return false
   const getRandomNumber = (array) => {
     let numOne = Math.round(Math.random() * (array.length - 1));
     let numTwo = Math.round(Math.random() * (array.length - 1));
@@ -57,6 +66,7 @@ const InFridge = () => {
     }
   };
 
+  // removes the item in the Ingredients array that is clicked on.
   const handleRemoveItem = (ev) => {
     const filteredArray = ingredientsArray.filter((item) => {
       return item !== ev.target.id;
@@ -65,6 +75,9 @@ const InFridge = () => {
     setIngredientsArray(filteredArray);
   };
 
+  // adds the input text to the ingredientsArray
+  // checks to see if enter is pressed as well as click
+  // for user friendlyness
   const handleAddItem = (ev) => {
     const item = document.getElementById("textInputId");
     if (ev.key === "Enter" || ev.target.id === "Enter") {
@@ -87,6 +100,8 @@ const InFridge = () => {
     resultsWrapper.style.visibility = " hidden";
   };
 
+  // starts the search, first checks if a ranking filter was chosen by the user
+  // if not doesn't add it to the url
   const handleSearch = () => {
     setRecipeResults([]);
     let searchString = ingredientsArray.toString();
@@ -100,6 +115,8 @@ const InFridge = () => {
           url = `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${key}&ingredients=${searchString}&number=50`;
         }
 
+        // once the fetch is done set's the fridge ingredients input by the user back ot nothing
+        // and sets the 50 recipes found by the Api in notFilterRecipes
         fetch(url).then((res) => {
           res.json().then((data) => {
             setNotFilteredRecipes(data);
@@ -108,6 +125,7 @@ const InFridge = () => {
         });
       });
     });
+    // makes the FridgeRecipeResult pop up with the recipeResults.
     const resultWrapper = document.getElementById("resultWrapperId");
 
     resultWrapper.style.opacity = "1";

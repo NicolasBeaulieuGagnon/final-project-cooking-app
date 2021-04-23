@@ -6,6 +6,7 @@ import PoppingCircle from "../../Animations/PoppingCirlce";
 import Spin from "../../Animations/Spin";
 import NotStyledButton from "../NoStyledButton";
 
+// a button that displays a little animation if you follow that user.
 const FollowButton = ({ onClick, isFollowed }) => {
   return isFollowed ? (
     <Wrapper onClick={onClick} isFollowed={isFollowed}>

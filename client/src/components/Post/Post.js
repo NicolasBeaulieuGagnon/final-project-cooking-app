@@ -8,6 +8,7 @@ import MainStyledButton from "../Button/MainStyledButton";
 import CreateComment from "./CreateComment";
 import { Link } from "react-router-dom";
 
+// each post is being received from the NewsFeed.js or the ProfilePosts.js
 const Post = ({ givenPost, index }) => {
   const [isEditing, setIsEditing] = useState();
   const [openCommentSection, setOpenCommentSection] = useState(false);
@@ -16,12 +17,15 @@ const Post = ({ givenPost, index }) => {
   const { loggedInUser } = useContext(LoggedInUserContext);
   const { author, edited, post, postImage, posted, _id } = givenPost;
 
+  // checks to see if the givenPost has any comments attached to it
+  // and gives them to commentsArray. this useState is used in the CreateComment.js
   useEffect(() => {
     if (givenPost.comments) {
       setCommentsArray(givenPost.comments);
     }
   }, []);
 
+  // little aesthetic to have the cascading post entrances.
   useEffect(() => {
     const postEntrance = document.getElementById(_id);
     setTimeout(() => {
@@ -34,6 +38,7 @@ const Post = ({ givenPost, index }) => {
     }, index * 100);
   }, [givenPost]);
 
+  // opens up the editable post only if you are that posts author
   const handleEdit = () => {
     setIsEditing(!isEditing);
   };

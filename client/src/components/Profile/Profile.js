@@ -22,6 +22,12 @@ const Profile = () => {
   );
   const { userId } = useParams();
 
+  // resets the panelContent everytime the userId changes
+  // this useEffect grabs
+  // --the user info by Id
+  // --all of the user's posts
+  // if clicked from the profile dropDown or the connected user's name at the top
+  // will be slightly different with the option to edit the connected user's avatar and banner
   useEffect(() => {
     setPanelContent(null);
     if (panelContent && panelContent === null) {
@@ -57,8 +63,9 @@ const Profile = () => {
         });
       });
     }
-  }, [loggedInUser, userId]);
+  }, [userId]);
 
+  // if the user has a cookbook grabs.
   useEffect(() => {
     if (userInfo.hasCookBook) {
       fetch(`/cookbook/${userInfo.cookBook}`).then((res) => {
@@ -69,12 +76,16 @@ const Profile = () => {
       });
     }
   }, [userInfo]);
+
+  // depending on which tab the person clicks sets panelContent to that value
+  // and than later a check is done depending on what panelContent is to show the correct info.
   const handlePanelChange = (panelChoice) => {
     setPanelContent(panelChoice);
     const panelHeight = document.getElementById("panelId");
     panelHeight.style.height = "auto";
   };
 
+  // change avatar modal pops up, available only on the editable profile page
   const handleChangeAvatar = () => {
     const avatarModalBg = document.getElementById("avatarChangeModalBg");
     const avatarModal = document.getElementById("avatarChangeModal");
@@ -83,9 +94,14 @@ const Profile = () => {
     avatarModal.style.top = "50%";
   };
 
+  // styled button for the upload file for the banner edit
+  // only available on the editable profile page
   const ClickUploadInput = () => {
     document.getElementById("uploadBannerInput").click();
   };
+
+  // onChange function. once the value of the upload file input changes
+  // uploads the given picture as the background and updates the user.
 
   const handleUploadBanner = (ev) => {
     console.log(ev.target.files[0]);
@@ -225,7 +241,11 @@ const Profile = () => {
         </FadingBorder>
         <Panel id="panelId">
           {panelContent && panelContent === "cookbook" ? (
-            <ProfileCookBook user={userInfo.userName} cookBook={userCookBook} />
+            <ProfileCookBook
+              user={userInfo}
+              loggedInUser={loggedInUser}
+              cookBook={userCookBook}
+            />
           ) : panelContent === "posts" ? (
             <ProfilePosts user={userInfo.userName} posts={userPosts} />
           ) : panelContent === "following" ? (

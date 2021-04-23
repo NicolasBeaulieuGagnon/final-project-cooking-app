@@ -8,6 +8,8 @@ import cookBook from "../../assets/designIcons/cookbook.png";
 import CreateComment from "./CreateComment";
 import { LoggedInUserContext } from "../Providers/LoggedInUserProvider";
 
+// a more detailed post view with the comment section already opened.
+// accessed by clicking the top half of any post or the number of comments.
 const PostDetails = () => {
   const [post, setPost] = useState({});
   const [isEditing, setIsEditing] = useState();
@@ -17,7 +19,6 @@ const PostDetails = () => {
   const { loggedInUser } = useContext(LoggedInUserContext);
 
   const { postId } = useParams();
-  console.log(post);
 
   useEffect(() => {
     if (postId) {
@@ -29,7 +30,6 @@ const PostDetails = () => {
       });
     }
   }, []);
-  console.log(commentsArray);
   return (
     <BorderAroundWrapper>
       <Wrapper>

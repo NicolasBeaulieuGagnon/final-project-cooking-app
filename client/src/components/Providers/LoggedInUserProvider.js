@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 
 export const LoggedInUserContext = createContext(null);
 
+// provider for the logged in user and their cookbook if their is one.
 export const LoggedInUserProvider = ({ children }) => {
   const [loggedInUser, setLoggedInUser] = useState({});
   const [updatingUser, setUpdatingUser] = useState(true);

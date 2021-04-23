@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { LoggedInUserContext } from "../Providers/LoggedInUserProvider";
 import NotStyledButton from "../Button/NoStyledButton";
 
+// each Drop down item is added here and checks a few things to block access if the user isn't logged in
+// and blocks the cookbook if the user doesn't have one.
 const DropDownItem = ({ title, icon, link, check, onClick }) => {
   const { loggedInUser } = useContext(LoggedInUserContext);
   return (

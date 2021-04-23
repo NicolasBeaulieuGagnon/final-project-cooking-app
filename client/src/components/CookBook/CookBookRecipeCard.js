@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+// little card for each recipe in a cookbook wrapped in a link so you can go to that recipes page.
+// the setTimeout is for aesthetic to give each recipe card a delayed entrance from the next.
 const CookBookRecipeCard = ({ recipe, index }) => {
   useEffect(() => {
     const recipeEntrance = document.getElementById(recipe.recipeId);

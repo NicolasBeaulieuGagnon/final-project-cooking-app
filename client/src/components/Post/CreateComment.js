@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import MainStyledButton from "../Button/MainStyledButton";
 import PostComments from "./PostComments";
 
+// createComment is used in the Post.js and the PostDetails.js
 const CreateComment = ({
   commentsArray,
   setCommentsArray,
@@ -13,11 +14,15 @@ const CreateComment = ({
   const [characterCount, setCharacterCount] = useState(0);
   const [postValue, setPostValue] = useState("");
 
+  // onChange tracks the text input's length and value
   const handleCharacterCount = (ev) => {
     setCharacterCount(ev.target.value.length);
     setPostValue(ev.target.value);
   };
 
+  // posts given comment.
+  // once posted on the Mongodb it then adds it the the commentArray
+  // at the start of it so newer comments are always at the top.
   const handlePostComment = () => {
     document.getElementById("commentTextArea").value = "";
 
@@ -36,7 +41,7 @@ const CreateComment = ({
     fetch(`/posts/comment/create`, {
       method: "PATCH",
       headers: {
-        Accepts: "application/json",
+        Allowed: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ ...newPost }),

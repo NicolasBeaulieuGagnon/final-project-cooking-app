@@ -6,6 +6,8 @@ import { FiCheckCircle } from "react-icons/fi";
 import NotStyledButton from "../Button/NoStyledButton";
 import MainStyledButton from "../Button/MainStyledButton";
 
+// modal for picking a new Avatar or uploading a new profile picture
+// used in the Profile.js
 const NewAvatarModal = ({ loggedInUser, updatingUser, setUpdatingUser }) => {
   const [defaultAvatarChoices, setDefaultAvatarChoices] = useState([]);
   const [Pick, setPick] = useState(null);
@@ -17,6 +19,10 @@ const NewAvatarModal = ({ loggedInUser, updatingUser, setUpdatingUser }) => {
         setDefaultAvatarChoices(data.data);
       });
     });
+  }, []);
+
+  // checks to see if a Pick is made, if so you can use the submit button
+  useEffect(() => {
     if (Pick === null) {
       document.getElementById("avatarDoneButton").disabled = true;
     } else {
@@ -24,6 +30,9 @@ const NewAvatarModal = ({ loggedInUser, updatingUser, setUpdatingUser }) => {
     }
   }, [Pick]);
 
+  // saves the picked choice and stores it in the Pick useState
+  // once a pick is made displays that Avatar or that image files name
+  // on the front end before uploading.
   const handlePick = (ev) => {
     if (ev.target.type === "file") {
       setPick(ev.target.files[0]);
@@ -35,6 +44,8 @@ const NewAvatarModal = ({ loggedInUser, updatingUser, setUpdatingUser }) => {
     }
   };
 
+  // checks to see what type of pick was made and changes accordingly.
+  // calls handleClose at the end to close the modal.
   const handleUploadChoice = () => {
     if (typeof Pick === "object") {
       fetch("/s3Url").then((res) => {
@@ -82,6 +93,7 @@ const NewAvatarModal = ({ loggedInUser, updatingUser, setUpdatingUser }) => {
     handleClose();
   };
 
+  // resets the picking process and closes the modal.
   const handleClose = () => {
     setPick(null);
     document.getElementById("fileUploadInput").value = "";
@@ -94,6 +106,7 @@ const NewAvatarModal = ({ loggedInUser, updatingUser, setUpdatingUser }) => {
     }
   };
 
+  // styled button to make the upload file input nice.
   const handleClickInput = () => {
     document.getElementById("fileUploadInput").click();
   };

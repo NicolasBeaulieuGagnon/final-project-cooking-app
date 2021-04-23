@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+// the ingredient button that we see in the Recipe.js
+// toggles on/off if you have/don't have that item
 export const IngredientButton = ({ name, image, text }) => {
   const [hasItem, setHasItem] = useState(false);
   const handleHasItem = () => {

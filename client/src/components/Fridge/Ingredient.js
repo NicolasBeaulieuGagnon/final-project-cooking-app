@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import NotStyledButton from "../Button/NoStyledButton";
 
+// each ingredient in the IngredientsArray from the InFridge.js
 const Ingredient = ({ onClick, item }) => {
   return (
     <Item key={item}>

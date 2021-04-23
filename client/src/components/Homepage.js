@@ -9,27 +9,22 @@ import logo from "../assets/designIcons/004-chef.png";
 import { Link } from "react-router-dom";
 
 const Homepage = () => {
-  const history = useHistory();
   const [randomRecipes, setRandomRecipes] = useState([]);
   const [displayedRecipe, setDisplayedRecipe] = useState(null);
   const [numberIncrease, setNumberIncrease] = useState(0);
 
   useEffect(() => {
-    if (localStorage.getItem("logged in") === "true") {
-      history.push(`/newsFeed`);
-    } else {
-      fetch(`/apiKey`).then((res) => {
-        res.json().then((data) => {
-          fetch(
-            `https://api.spoonacular.com/recipes/random?apiKey=${data.data}&number=10`
-          ).then((res) => {
-            res.json().then((data) => {
-              setRandomRecipes(data.recipes);
-            });
+    fetch(`/apiKey`).then((res) => {
+      res.json().then((data) => {
+        fetch(
+          `https://api.spoonacular.com/recipes/random?apiKey=${data.data}&number=10`
+        ).then((res) => {
+          res.json().then((data) => {
+            setRandomRecipes(data.recipes);
           });
         });
       });
-    }
+    });
   }, []);
 
   useEffect(() => {
@@ -135,9 +130,12 @@ const Homepage = () => {
 };
 
 const LogoImg = styled.img`
+  position: absolute;
+  top: 500px;
   margin-top: 50px;
   width: 250px;
-  transform: translate(50%);
+  left: 50%;
+  transform: translate(-50%);
 `;
 
 const StyledLink = styled(Link)`
@@ -155,8 +153,8 @@ const ArrowDiv = styled.div`
   color: black;
   position: absolute;
   background: transparent;
-  bottom: -15px;
-  left: 80%;
+  bottom: 15px;
+  left: 260px;
   height: 70px;
   width: 50px;
   transform: rotate(35deg);
@@ -205,6 +203,7 @@ const ChangingImageWrapper = styled.div`
   height: 300px;
   background-size: cover;
   transition: 0.5s ease-in-out;
+  margin-bottom: 300px;
 `;
 
 const Title = styled.div`

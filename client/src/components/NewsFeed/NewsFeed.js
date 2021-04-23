@@ -5,24 +5,20 @@ import { LoggedInUserContext } from "../Providers/LoggedInUserProvider";
 import Post from "../Post/Post";
 import CreatePost from "../Post/CreatePost";
 
+// main newsFeed area
 const NewsFeed = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [createdPost, setCreatedPost] = useState([]);
   const { loggedInUser } = useContext(LoggedInUserContext);
 
+  // gets all the posts and reverses the array always showing the newest post at the top.
+  // sends each post in the AllPosts array to Post.js
   useEffect(() => {
     fetch("/newsFeed").then((res) => {
       res.json().then((data) => {
         setAllPosts(data.data.reverse());
       });
     });
-    return () => {
-      fetch("/newsFeed").then((res) => {
-        res.json().then((data) => {
-          setAllPosts(data.data.reverse());
-        });
-      });
-    };
   }, []);
 
   return (

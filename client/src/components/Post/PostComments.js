@@ -3,8 +3,6 @@ import React from "react";
 import styled from "styled-components";
 
 const PostComments = ({ comment }) => {
-  comment;
-
   return (
     <Wrapper>
       <UserWrapper>

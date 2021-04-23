@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import NotStyledButton from "../Button/NoStyledButton";
-import { Link, useHistory } from "react-router-dom";
-
+import { useHistory } from "react-router-dom";
 import moment from "moment";
+
+import MainStyledButton from "../Button/MainStyledButton";
 import CookBookRecipeCard from "../CookBook/CookBookRecipeCard";
 
-const ProfileCookBook = ({ user, cookBook }) => {
+// the user's profile cookbook mini page used in Profile.js
+const ProfileCookBook = ({ loggedInUser, user, cookBook }) => {
   const history = useHistory();
 
   return (
@@ -35,15 +36,22 @@ const ProfileCookBook = ({ user, cookBook }) => {
             )}
           </Book>
         </>
-      ) : (
+      ) : user._id === loggedInUser._id ? (
         <EmptyBook>
+          <Title>Create your own Cookbook!</Title>
+          <Border />
           <CreateBookButton
             onClick={() => {
               history.push(`/createCookBook`);
             }}
           >
-            create your own book
+            create
           </CreateBookButton>
+        </EmptyBook>
+      ) : (
+        <EmptyBook>
+          <Title>{user.userName} has no Cookbook yet!</Title>
+          <Border />
         </EmptyBook>
       )}
     </Wrapper>
@@ -68,8 +76,19 @@ const RecipesWrapper = styled.div`
 
 const NoRecipe = styled.div``;
 
-const CreateBookButton = styled(NotStyledButton)``;
-const EmptyBook = styled.div``;
+const CreateBookButton = styled(MainStyledButton)`
+  font-size: 35px;
+  font-weight: bold;
+  margin-top: 30px;
+  left: 50%;
+  transform: translate(-50%);
+  &:hover {
+    transform: translate(-50%) scale(1.2);
+  }
+`;
+const EmptyBook = styled.div`
+  height: 300px;
+`;
 
 const Wrapper = styled.div``;
 

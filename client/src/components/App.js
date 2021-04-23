@@ -12,7 +12,6 @@ import About from "./About";
 import InFridge from "./Fridge/InFridge";
 import { GlobalStyle } from "./GlobalStyle";
 import CookBook from "./CookBook/CookBook";
-import SubmitRecipe from "./CookBook/SubmitRecipe";
 import Recipe from "./Recipe/Recipe";
 import NewsFeed from "./NewsFeed/NewsFeed";
 import PostDetails from "./Post/PostDetails";
@@ -43,9 +42,6 @@ const App = () => {
             </Route>
             <Route exact path="/cookbook/:cookbookId">
               <CookBook />
-            </Route>
-            <Route exact path="/submitRecipe">
-              <SubmitRecipe />
             </Route>
             <Route exact path="/recipe/:recipeId">
               <Recipe />

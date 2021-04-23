@@ -6,6 +6,7 @@ import { GiWhiteBook } from "react-icons/gi";
 import MainStyledButton from "../Button/MainStyledButton";
 import CookBookModal from "../Modals/CookBookModal";
 
+// createPost function used in the NewsFeed.js
 const CreatePost = ({ setCreatedPost, createdPost, user }) => {
   const [characterCount, setCharacterCount] = useState(0);
   const [postValue, setPostValue] = useState("");
@@ -13,6 +14,7 @@ const CreatePost = ({ setCreatedPost, createdPost, user }) => {
   const [userPickedRecipe, setUserPickedRecipe] = useState("");
   const [mediaChoice, setMediaChoice] = useState("");
 
+  // tracks to see their is at least 4 or less than 250 to be able to post.
   useEffect(() => {
     if (characterCount > 250 || characterCount < 3) {
       document.getElementById("postButton").disabled = true;
@@ -21,12 +23,14 @@ const CreatePost = ({ setCreatedPost, createdPost, user }) => {
     }
   }, [characterCount]);
 
+  // becomes true when the user picked a recipe saved in their cookbook
   useEffect(() => {
     if (userPickedRecipe) {
       setPostImage(userPickedRecipe);
     }
   }, [userPickedRecipe]);
 
+  // aesthetic entrance to the createPost to make it have a bounce/ stretch entrance
   useEffect(() => {
     const createPostDiv = document.getElementById("createPostId");
 
@@ -38,11 +42,16 @@ const CreatePost = ({ setCreatedPost, createdPost, user }) => {
     }, 700);
   }, []);
 
+  // onChange function that tracks the value and length of the post.
   const handleCharacterCount = (ev) => {
     setCharacterCount(ev.target.value.length);
     setPostValue(ev.target.value);
   };
 
+  // calls handleRemoveMedia to remove the chose Image/file.
+  // than checks if postImage has type of file meaning
+  // we need to upload the file. If it doesn't than we can upload the post without
+  // first having to upload anything.
   const handleSubmitPost = () => {
     handleRemoveMedia();
     const btn = document.getElementById("postButton");
@@ -127,6 +136,10 @@ const CreatePost = ({ setCreatedPost, createdPost, user }) => {
     }
   };
 
+  // if a file is picked to be uploaded creates an object with it for the postImage useState
+  // changes mediaChoice to userImported
+  // resets userPickedRecipe.
+  // increases the size of the CreatePost div to accomodate for the file name and remove button.
   const handleSelectedImage = (ev) => {
     if (ev.target.type === "file") {
       const image = ev.target.files;
@@ -143,12 +156,15 @@ const CreatePost = ({ setCreatedPost, createdPost, user }) => {
     }
   };
 
+  // enables the cookbook modal visually
   const handleCookBookModal = () => {
     const modal = document.getElementById("recipeModalBg");
     modal.style.visibility = "visible";
     modal.style.opacity = "1";
   };
 
+  // resets the CreateComment useStates.
+  // called after a post is posted.
   const handleRemoveMedia = () => {
     setMediaChoice("");
     setPostImage("");
@@ -163,6 +179,7 @@ const CreatePost = ({ setCreatedPost, createdPost, user }) => {
     createPostDiv.style.height = "340px";
   };
 
+  // styled button for the upload file input.
   const handleGetFileType = () => {
     const Input = document.getElementById("typeSelection");
 

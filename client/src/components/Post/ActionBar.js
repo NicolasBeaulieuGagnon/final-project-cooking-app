@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 
-import { GrBook } from "react-icons/gr";
 import { LoggedInUserContext } from "../Providers/LoggedInUserProvider";
 import LikeButton from "../Button/LikeButton/LikeButton";
 import CommentButton from "../Button/CommentButton/CommentButton";
 import FollowButton from "../Button/FollowButton/FollowButton";
 import { Link } from "react-router-dom";
 
+// used in the Post.js and the PostDetails.js
 const ActionBar = ({
   openCommentSection,
   setOpenCommentSection,
@@ -26,10 +26,14 @@ const ActionBar = ({
     LoggedInUserContext
   );
 
+  // grabs all the likes the post currently has an puts it in a useState
   useEffect(() => {
     setPostLikes(numLikes);
   }, []);
 
+  // than if a user is logged in it checks to see if that user already
+  // likes that post and follows that user. calling checkData to return a true
+  // or false value.
   useEffect(() => {
     if (loggedInUser._id) {
       setIsLiked(checkData(postId, loggedInUser.postsLiked));
@@ -51,6 +55,9 @@ const ActionBar = ({
       return false;
     }
   };
+
+  // handles the like/dislike feature for each post.
+  // at the end of either action it updates the user so it shows the correct information.
   const handleLike = () => {
     setIsLiked(!isLiked);
     if (isLiked) {
@@ -99,6 +106,9 @@ const ActionBar = ({
     }
   };
 
+  // handles the follow/unfollow feature.
+  // will update the user info at the end once either option is done
+  // and will update past posts to make sure you don't double like a user.
   const handleFollow = () => {
     setIsFollowed(!isFollowed);
     if (isFollowed) {
@@ -144,6 +154,8 @@ const ActionBar = ({
     }
   };
 
+  // opens/ closes the comment section
+  // the animate useState is purely aesthetic
   const handleOpenComments = () => {
     setOpenCommentSection(!openCommentSection);
 

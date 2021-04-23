@@ -6,9 +6,9 @@ import { GrGroup, GrLike } from "react-icons/gr";
 import cookBook from "../../assets/designIcons/cookbook.png";
 import kitchen from "../../assets/designIcons/kitchen.png";
 
+// the user's profile people they are following.
 const ProfileFollowers = ({ user, following }) => {
   const [arrayOfFollowing, setArrayOfFollowing] = useState([]);
-  console.log(arrayOfFollowing);
 
   useEffect(() => {
     setArrayOfFollowing([]);
