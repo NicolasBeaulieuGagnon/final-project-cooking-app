@@ -2,6 +2,10 @@
 
 Welcome to What's cooking app. This is my final project for my coding bootcamp!
 
+you can find a video on how it works here 
+https://www.youtube.com/watch?v=alxFvr2oWLI&ab_channel=NicolasBeaulieu-Gagnon
+
+
 This app is an online cookbook builder with a good amount of social interactivity added into it.
 Here you can add recipes you find by going in the random recipe generator or by putting ingredients in the fridge and seeing what it gives back!
 If you like any recipes you find you are then invited to click on the image and will be taken to that recipes page. From there you can add it to your personal cookbook to increase your collection of great recipes!
