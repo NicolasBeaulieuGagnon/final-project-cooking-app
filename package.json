@@ -9,6 +9,6 @@
     "start": "cd server && yarn dev",
     "build": "cd .. && cd client && yarn build",
     "install-client": "cd .. && cd client && yarn install",
-    "heroku-postbuild": "yarn install-client && yarn build"
+    "heroku-postbuild": "npm run install-client && npm run build"
   }
 }
