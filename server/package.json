@@ -5,9 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "build": "cd .. && cd client && yarn build",
-    "install-client": "cd .. && cd client && yarn install",
-    "heroku-postbuild": "yarn install-client && yarn build",
     "client": "cd .. && cd client && yarn start",
     "dev": "concurrently -n 'server,client' -c 'red,green' \"nodemon index.js\" \" yarn client\" "
   },
