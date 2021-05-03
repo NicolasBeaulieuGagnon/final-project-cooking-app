@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "build": "cd .. && cd client && yarn build",
+    "install-client": "cd .. && cd client && yarn install",
+    "heroku-postbuild": "yarn install-client && yarn build",
+    "client": "cd .. && cd client && yarn start",
+    "dev": "concurrently -n 'server,client' -c 'red,green' \"nodemon index.js\" \" yarn client\" "
   },
   "keywords": [],
   "author": "",
@@ -13,11 +18,13 @@
     "assert": "^2.0.0",
     "aws-sdk": "^2.884.0",
     "body-parser": "^1.19.0",
+    "concurrently": "^6.0.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "google-auth-library": "^7.0.4",
     "moment": "^2.29.1",
     "mongodb": "^3.6.6",
+    "mongoose": "^5.12.7",
     "morgan": "^1.10.0",
     "serve-index": "^1.9.1",
     "util": "^0.12.3",
