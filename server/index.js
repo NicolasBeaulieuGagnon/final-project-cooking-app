@@ -36,7 +36,7 @@ const {
 
 const { getAllQuestions } = require("./handlers/questionHandler");
 
-const PORT = process.env.PORT || 31415;
+const PORT = 31415;
 
 if (process.env.NODE_ENV === "production") {
   express().use(express.static("../client/build"));
