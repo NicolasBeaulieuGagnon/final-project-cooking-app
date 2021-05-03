@@ -166,6 +166,7 @@ const deleteCookBook = async (req, res) => {
 };
 
 const getApiKey = (req, res) => {
+  console.log(SPOON_API_KEY);
   res.status(200).json({ status: 200, data: SPOON_API_KEY });
 };
 
