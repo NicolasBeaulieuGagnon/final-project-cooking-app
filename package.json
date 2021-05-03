@@ -6,9 +6,9 @@
   "author": "Nicolas Beaulieu-Gagnon <beaulieu_gagnon_nicolas@hotmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "cd server && yarn dev",
-    "build": "cd .. && cd client && yarn build",
-    "install-client": "cd .. && cd client && yarn install",
+    "start": "cd server && npm run dev",
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm run install",
     "heroku-postbuild": "npm run install-client && npm run build"
   }
 }
