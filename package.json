@@ -5,7 +5,7 @@
   "repository": "https://github.com/NicolasBeaulieuGagnon/final-project-cooking-app.git",
   "author": "Nicolas Beaulieu-Gagnon <beaulieu_gagnon_nicolas@hotmail.com>",
   "license": "MIT",
-  "script": {
+  "scripts": {
     "start": "cd server && yarn dev",
     "build": "cd .. && cd client && yarn build",
     "install-client": "cd .. && cd client && yarn install",
